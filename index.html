@@ -253,31 +253,6 @@
 
 <body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
 
-  <!-- Gemini Theme Modal -->
-  <div id="theme-modal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 hidden">
-    <div
-      class="bg-card-light dark:bg-card-dark rounded-xl shadow-lg max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
-      <button id="close-modal-btn"
-        class="absolute top-3 right-3 text-subtle-text-light dark:text-subtle-text-dark hover:text-primary dark:hover:text-primary">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <h3 class="text-2xl font-display text-text-light dark:text-text-dark mb-4">✨ Theme Ideas</h3>
-
-      <!-- Loading Spinner -->
-      <div id="theme-modal-loading" class="text-center p-8 hidden">
-        <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-        <p class="mt-4 font-body text-subtle-text-light dark:text-subtle-text-dark">Generating creative ideas...</p>
-      </div>
-
-      <!-- Modal Content Area -->
-      <div id="theme-modal-content" class="font-body text-text-light dark:text-text-dark">
-        <!-- Gemini results will be injected here -->
-      </div>
-    </div>
-  </div>
-
-
   <!-- Main Content Wrapper -->
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
 
@@ -678,13 +653,6 @@
                   class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark">expand_more</span>
               </div>
             </label>
-
-            <!-- Gemini AI Button -->
-            <button type="button" id="generate-themes-btn"
-              class="mt-2 flex h-12 w-full items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/30 text-base font-bold shadow-[0_4px_14px_0_rgb(0,0,0,5%)] transition-all duration-200 ease-in-out hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] font-body">
-              <span class="mr-2">✨</span>
-              Get Theme Ideas
-            </button>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <label class="flex flex-col">
@@ -1339,139 +1307,6 @@
       window.addEventListener('resize', () => {
         setTimeout(updateTestimonialCarousel, 150);
       });
-
-      // --- Gemini API Logic ---
-      const generateThemesBtn = document.getElementById('generate-themes-btn');
-      const themeModal = document.getElementById('theme-modal');
-      const closeModalBtn = document.getElementById('close-modal-btn');
-      const themeModalContent = document.getElementById('theme-modal-content');
-      const themeModalLoading = document.getElementById('theme-modal-loading');
-      const eventTypeSelect = document.getElementById('event-type-select');
-      const eventLocationInput = document.getElementById('event-location-input');
-      const eventThemeInput = document.getElementById('event-theme-input');
-
-      const apiKey = ""; // Leave as-is, will be populated by the environment
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-      function showModal() { themeModal.classList.remove('hidden'); }
-      function hideModal() { themeModal.classList.add('hidden'); }
-
-      closeModalBtn.addEventListener('click', hideModal);
-      themeModal.addEventListener('click', (e) => {
-        if (e.target === themeModal) { hideModal(); }
-      });
-
-      themeModalContent.addEventListener('click', (e) => {
-        if (e.target.classList.contains('select-theme-btn')) {
-          const themeName = e.target.dataset.themeName;
-          if (themeName) { eventThemeInput.value = themeName; }
-          hideModal();
-        }
-      });
-
-      async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
-        try {
-          const response = await fetch(url, options);
-          if (!response.ok) {
-            if (response.status === 429 && retries > 0) {
-              await new Promise(resolve => setTimeout(resolve, delay));
-              return fetchWithRetry(url, options, retries - 1, delay * 2);
-            }
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        } catch (error) {
-          if (retries > 0) {
-            await new Promise(resolve => setTimeout(resolve, delay));
-            return fetchWithRetry(url, options, retries - 1, delay * 2);
-          }
-          throw error;
-        }
-      }
-
-      generateThemesBtn.addEventListener('click', async () => {
-        showModal();
-        themeModalContent.innerHTML = '';
-        themeModalLoading.classList.remove('hidden');
-
-        const eventType = eventTypeSelect.value;
-        const location = eventLocationInput.value || 'any location';
-
-        const systemPrompt = "You are an expert event planner for 'Birthday Decoration King'. Your goal is to inspire clients with creative, elegant, and exciting theme ideas. Provide 5 theme ideas based on the user's request. Format the response as a JSON array, following the provided schema. Make the themes unique and descriptive.";
-        const userQuery = `Generate 5 creative theme ideas for a ${eventType} party in ${location}.`;
-
-        const schema = {
-          type: "ARRAY",
-          items: {
-            type: "OBJECT",
-            properties: {
-              "themeName": { "type": "STRING" },
-              "description": { "type": "STRING" },
-              "keywords": {
-                "type": "ARRAY",
-                "items": { "type": "STRING" }
-              }
-            },
-            required: ["themeName", "description", "keywords"]
-          }
-        };
-
-        const payload = {
-          contents: [{ parts: [{ text: userQuery }] }],
-          systemInstruction: {
-            parts: [{ text: systemPrompt }]
-          },
-          generationConfig: {
-            responseMimeType: "application/json",
-            responseSchema: schema
-          }
-        };
-
-        try {
-          const result = await fetchWithRetry(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0].text) {
-            const jsonText = result.candidates[0].content.parts[0].text;
-            const themes = JSON.parse(jsonText);
-            displayThemes(themes);
-          } else {
-            throw new Error("Invalid response structure from API.");
-          }
-
-        } catch (error) {
-          console.error('Error fetching theme ideas:', error);
-          themeModalContent.innerHTML = `<p class="text-red-500 font-body">Sorry, we couldn't generate themes right now. Please try again later.</p>`;
-        } finally {
-          themeModalLoading.classList.add('hidden');
-        }
-      });
-
-      function displayThemes(themes) {
-        let html = '<ul class="space-y-4">';
-        themes.forEach(theme => {
-          html += `
-                  <li class="border-b border-border-light dark:border-border-dark pb-4 last:pb-0 last:border-b-0">
-                      <h4 class="text-lg font-display text-primary dark:text-accent">${theme.themeName}</h4>
-                      <p class="text-sm text-subtle-text-light dark:text-subtle-text-dark my-1">${theme.description}</p>
-                      <p class="text-xs text-text-light/70 dark:text-text-dark/70 font-body mb-3">
-                          <strong>Keywords:</strong> ${theme.keywords.join(', ')}
-                      </p>
-                      <button type="button" 
-                              class="select-theme-btn w-full text-sm bg-accent text-white dark:text-background-dark font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
-                              data-theme-name="${theme.themeName}">
-                          Select this Theme
-                      </button>
-                  </li>
-              `;
-        });
-        html += '</ul>';
-        themeModalContent.innerHTML = html;
-      }
-
     });
   </script>
 </body>
