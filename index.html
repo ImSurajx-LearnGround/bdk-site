@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elegance Events - Complete Website</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Epilogue:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
+  
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  
+  <!-- Merged Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#C5A352", // Master Gold
+            "accent": "#D4AF37", // Secondary Gold
+            "background-light": "#FDFBF8", // Master Light BG (from gallery)
+            "background-dark": "#221019", // Master Dark BG (from hero)
+            "card-light": "#FFFFFF",
+            "card-dark": "#3D3528",
+            "text-light": "#4A3B2B", // Master Text (from gallery)
+            "text-dark": "#F5EFE6", // Master Dark Text (from hero's cream)
+            "subtle-text-light": "#8C7A68", // (from gallery)
+            "subtle-text-dark": "#d4c8b2", // (from aboutus)
+            "border-light": "#e0d5bf", // (from aboutus)
+            "border-dark": "#4a402f", // (from aboutus)
+
+            // Legacy colors for compatibility
+            "brand-gold": "#C5A352",
+            "brand-cream": "#F5EFE6",
+            "brand-ivory": "#FFFBEF",
+            "brand-dark": "#3A3021",
+            "brand-text": "#5D544A",
+            "ivory": "#FAF8F5",
+            "cream": "#F4EADF",
+            "gold": "#C0A175",
+            "gold-light": "#D4B996",
+            "gold-dark": "#8C7353",
+            "accent-gold": "#C19A6B", // from services
+          },
+          fontFamily: {
+            "display": ["Playfair Display", "serif"],
+            "body": ["Poppins", "sans-serif"],
+            "sans": ["Epilogue", "sans-serif"],
+            "serif": ["Playfair Display", "serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    /* Styles from Gallery */
+    .font-serif-display {
+      font-family: 'Playfair Display', serif;
+    }
+    .font-sans-body {
+      font-family: 'Epilogue', sans-serif;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Styles from Services */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+    /* Styles from Testimonials */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+    }
+    /* Styles from Events */
+    .form-input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+
+  <!-- Lightbox (from Gallery) -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 hidden" id="lightbox" onclick="closeLightbox()">
+    <div class="relative max-w-3xl max-h-full" onclick="event.stopPropagation()">
+      <img alt="" class="rounded-xl object-contain max-h-[80vh]" id="lightbox-img" src="" />
+      <p class="text-center text-white mt-4 font-light text-sm" id="lightbox-caption"></p>
+      <button class="absolute top-2 right-2 text-white bg-black/50 rounded-full p-2" onclick="closeLightbox()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+
+    <!-- Section 1: Hero -->
+    <section id="hero" class="relative flex min-h-screen flex-col items-center justify-center p-6 text-center overflow-hidden bg-brand-cream dark:bg-background-dark">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfTxRN3pMajq2iBCjnNYAAaMZ-MlQkfTmC4eQSeVvH2eekEuFqBRjyK0jOwRIubv-PmeGsvHRSpyZeW8OKtz9zCMtk-X3_qX3KYs4D5WQXtjavOhQzoPC1snNuePGYkthPZLxi6QzjkDsl-_897OE6-s2qiXfzH9Rdb7VxAIbkwYQEhKTUmKs4YZpieatDWpNJC1OOlrVqLphRnIo_pbzb6zi-J31l4_7sphfmBV-xB_SOo4jxJdQayBiEw_ny70cjFYv0iM0nleRZ'); opacity: 0.15;"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-cream dark:from-background-dark via-brand-cream/50 dark:via-background-dark/50 to-transparent"></div>
+        <div class="absolute -top-1/4 -right-1/4 w-3/4 h-3/4 opacity-40">
+          <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain -rotate-45" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5VqC8ot-CE9TAhijf6pyVr12eqw8Jd702REk6F_akhYk2nwItmqeYOZj9miw30lsZnaRBsyFjYtBlul3V7MuWs-SbYOgCs-0nL1fpS9M0XDhiBxhSO2KUQBK8sIl2RatjiAYryFTehgXQG-kaHuVcFaTz276FisEMnyPZUXkxIIyRs6fEYZcGNx7SqwfWf5HeiPH49y0voWfff43wEAW8vs8iYXPBtOsh__M_VRg7NCHveEjVj90w87cfK7B0thvKRB0q9-jwupjR" />
+        </div>
+        <div class="absolute -bottom-1/4 -left-1/4 w-3/4 h-3/4 opacity-40">
+          <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain rotate-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdHrgxwxOfoRkO8YKYki7BzhBKZYKYq5bAer_Y57dGzf140AWRzC9lNHphgrA5SSfvXVLy8vJa493ky9hLV__MUBmGaVJrCoU4xpoHLAkNnh772Q4PnsdXh_ZimkmW7YHERy4cbSiDBYVuoEryJ7jSXPGWvR8BTs6beihMT75boNQ6xmtzH27XqIJTFZgQSJtZqm-JAlFt8Tq4nyX44WIRg4k-LmcBXiMB-WQsXdG1e603mPmEnwe3XQQLA1kSbHqecAdZAyLPIeY2" />
+        </div>
+      </div>
+      <div class="relative z-10 flex flex-col gap-4 max-w-3xl px-4">
+        <h1 class="text-text-light dark:text-text-dark text-5xl font-display font-semibold leading-tight" style="text-shadow: 1px 1px 3px rgba(255, 251, 239, 0.5);">
+          Turning Moments into Magical Memories 🎉
+        </h1>
+        <h2 class="text-subtle-text-light dark:text-subtle-text-dark text-lg font-light leading-relaxed max-w-lg mx-auto font-body">
+          From intimate celebrations to grand events — we create décor that speaks love, joy, and style.
+        </h2>
+      </div>
+      <div class="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 justify-center mt-8">
+        <button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-gradient-to-br from-[#EAD9B8] to-[#C5A352] text-brand-dark text-base font-semibold uppercase tracking-wider shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.4)] transition-all duration-300 ease-in-out hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.4)] hover:brightness-105 transform hover:scale-105 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] active:brightness-95">
+          <span class="truncate">Book Your Event</span>
+        </button>
+        <button class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-transparent text-text-light dark:text-text-dark text-base font-semibold uppercase tracking-wider border-2 border-[#D6BB81] shadow-[0_2px_6px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.1)] transition-all duration-300 ease-in-out hover:bg-brand-gold/10 hover:border-brand-gold hover:shadow-lg transform hover:scale-105">
+          <span class="truncate">View Gallery</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 2: About Us -->
+    <section id="about" class="py-16">
+      <div class="@container">
+        <div class="@[480px]:px-4 @[480px]:py-3 px-4">
+          <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden @[480px]:rounded-xl min-h-80 rounded-xl" data-alt="A collage of elegantly decorated events in gold, ivory, and cream, featuring balloon arches, floral arrangements, and festive table settings." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGKxYjy7nL83yMVXJOq52BYSkV01_aNle1keP_7tXmh_6NNblpvLcglZsyq3L8vqDrO2AFrqPxV5Wd-ZOG6VGaqHsD2kr_VhQGaRXUKVK3Vm8B3CW4vGFZUC4Uo4HZA8kummklNOwtBASsnJpT5m0IsGEO50T3MgFGAy2ghPANv9QMUPCJmm-VsWxh3cqu9g9ZMUivxqUkD_kfGQp4Y-P2BsN9Xbm_Ftvrdm8veK6P0yYKuUfO2Dmn87Jqr5LaEIaNmQ7zu2C3U-Vv");'></div>
+        </div>
+      </div>
+      <div class="h-5"></div>
+      <h1 class="text-text-light dark:text-text-dark tracking-tight text-4xl font-bold leading-tight px-4 text-center pb-3 pt-6 font-serif">Crafting Unforgettable Moments</h1>
+      <div class="h-5"></div>
+      <p class="text-text-light dark:text-text-dark text-base font-normal leading-relaxed pb-3 pt-1 px-4 text-center max-w-2xl mx-auto font-sans">At Birthday Decoration King, we believe every celebration deserves perfection. Our designs blend creativity, empathy, and elegance — transforming your special day into a masterpiece.</p>
+      <div class="h-5"></div>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4 max-w-4xl mx-auto">
+        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
+          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">celebration</span>
+          <div class="flex flex-col gap-1">
+            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Creativity</h2>
+            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Unique and inspired designs</p>
+          </div>
+        </div>
+        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
+          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">auto_awesome</span>
+          <div class="flex flex-col gap-1">
+            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Elegance</h2>
+            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Sophisticated and timeless decor</p>
+          </div>
+        </div>
+        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
+          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">edit</span>
+          <div class="flex flex-col gap-1">
+            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Customization</h2>
+            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Tailored to your perfect vision</p>
+          </div>
+        </div>
+      </div>
+      <div class="h-5"></div>
+      <div class="flex px-4 py-3 max-w-xs mx-auto">
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-primary text-background-light dark:text-background-dark text-base font-bold leading-normal tracking-[0.015em] font-sans hover:opacity-90 transition-opacity">
+          <span class="truncate">Explore Our Creations</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 3: Services -->
+    <section id="services" class="py-16 px-4">
+      <h1 class="font-serif text-text-light dark:text-text-dark tracking-tight text-[36px] font-bold leading-tight text-center pb-4 pt-8">Our Signature Services</h1>
+      <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
+            <span class="material-symbols-outlined text-accent-gold">cake</span>
+          </div>
+          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Birthday Party Décor</p>
+          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Joyful designs for every age.</p>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
+            <span class="material-symbols-outlined text-accent-gold">stroller</span>
+          </div>
+          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Baby Shower Setups</p>
+          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Welcome your little one in style.</p>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
+            <span class="material-symbols-outlined text-accent-gold">favorite</span>
+          </div>
+          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Anniversary &amp; Couple Themes</p>
+          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Celebrating your love story.</p>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
+            <span class="material-symbols-outlined text-accent-gold">filter_vintage</span>
+          </div>
+          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Flower &amp; Balloon Styling</p>
+          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Breathtaking organic art.</p>
+        </div>
+        <div class="col-span-2 flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-6 text-center transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
+          <div class="flex items-center justify-center w-14 h-14 rounded-full bg-accent-gold/10">
+            <span class="material-symbols-outlined text-accent-gold text-3xl">auto_awesome</span>
+          </div>
+          <p class="text-base font-semibold leading-tight text-text-light dark:text-text-dark font-body">Custom Theme Design</p>
+          <p class="text-sm font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Your unique vision, brought to life.</p>
+        </div>
+      </div>
+      <div class="flex px-4 py-6 max-w-sm mx-auto">
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 flex-1 bg-accent-gold text-white text-base font-semibold leading-normal tracking-[0.015em] w-full shadow-lg shadow-accent-gold/30 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+          <span class="truncate">Start Planning Your Event</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Section 4: Gallery -->
+    <section id="gallery" class="py-16">
+      <div class="text-center">
+        <h1 class="text-2xl font-bold tracking-tight text-primary font-serif-display">Our Creations</h1>
+        <p class="text-xs text-subtle-text-light">Gallery of Golden Moments</p>
+      </div>
+      <main class="container mx-auto p-4">
+        <div class="columns-2 gap-4 sm:columns-3 lg:columns-4">
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A beautifully set table for a golden anniversary gala with elegant gold cutlery and white floral centerpieces." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXnWaOw6pVEAzOu5ubiiEfxgEBiXcj3Ws_210-Bgc-8NxltAcqiB8N_DDo6I7P4izGGqFG0ci8ZRdhDjwnrcN5HbQKOsi02TR-Q5QIr9fvQg2TO6evm1jzc4fsGXMlgr4-yJq8zKrFaAI6f3JMwHZAe-b-bsWhEdfqy8hqsU681urKkPCujtLtxAspNO9MZePJuE_4PB22VNpb7iDW3Gq4RqHa2bwDaCUwNkoXsRO03cse3RUPC-aB3k7ZqIYKRCNXOidrHOJB6TwS" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Close-up detail of an ivory and gold wedding cake with intricate sugar flowers." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4flycVskwbxnUw1I-I1tv4N_Esz96PIkPsPQWz69zanuhADzXK-r8MaOeDR4nOY0Oh4kDxBrpVnSGaK2qUzyLvuqDd2GCN2WX6qyifSDeKC8VqU5kzPBdohpMS3uLJJ0tHunejFluqlwMAjjTXgTsdbQmc9P_LId6ryNvYnF2QK9pgXPHMYkhWUfsdL1dWfxnuRhMEePyV84a5CpwV4HiEVFPmB_uSaxhwwsZKuiIGsRaHji66KdysFoh80DGSECksvYJ0H5oiTMx" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A wide shot of a modern chic anniversary event with minimalist decor and soft ambient lighting." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_1PgjyRimm48NjLQ9LSkH0-WYph7pIwJUQBh59Eo8zUiUJQIPni0QXDRvfMbo8KfGnUJBC5BerG9GFHHhq2xNH9YUYVfZ5cx2mQcwDoHc5fy7JcPuJDYMVzWS0w4Uv5hUIhOnNlEUshPL5OKABkk4sFDHwZWODDDa25PAkl8qGQZV80FyaV97aXbM8LJEj6N32E2c-EIdSXG44JdBMy0Hxyx1b_fTZUJCKVITUlefl2OrYf88MGeca_COSy4F37LMp7PyBt3rvbjl" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A pink and gold dream party with shimmering backdrops and an abundance of balloons." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8mIk8G3S2Jm6mFzqdXoqtZM6GxptSiEFim-rOY2MT5o0RM7Qlyo5H2SfIotlNsdG-vJLCavH-cZiXfKyqZmmm0FPCJROfTUmmVmFugsbx5sKSmxAg4ZMtkxgtioBzGvVH-WZ2N3JHTjoY9jcaZamT_v7y7qTtaGtzESpU_prqnx7yQ5JmBDunLR9W8UEQN4U99DPHnE5Jk0WAPl_tclo4OaK3qIJkb3j-K32OrK_WTTJJDtzI3DCg_sSBm5JkEcsM5v5psRFXFoKj" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Candid photo of guests laughing and enjoying the ambiance at an elegant evening party." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0q_vWJiJ1AlT5k-2anOrMk7Nl0VwaDCP7SMzw9GzUxMOukTH5PrTQJwTXgcxHvJNqZhO6-xi1xcuh8u636dRkfMWrVZAqo0NqlKNujetIPCconCXEJttCAizoL553Scj8zDzXFVW7gz6KheJ6Is9J_M5ZruJDRdFQ4D8ZGLVy1wgv6YKaF_cJA-fVhegRyNrmRcWL8-pGqQPr4sCCG1Q6o8U1AfYjolVxGNYijmD-zElEjNL0TDKyFNp6Oq7FugUplgg2GmfoLB8N" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Close-up of a dreamy pastel balloon arch with floral accents for a baby shower." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeYlVKOBDh-x7h7SBkNDnRXVPin7RXWdwVmWEq4nfIrFNCwNxRQWUmVUWEo6ibJS58xWUYC6NsbPj_hVOwo473meOOZunnxRREjtPBfQOuBHsdy3E2kniBIMnOMZalPRMqKK5kICoEXeGJr4GjxYU3aOcteMB_-GsKlVDbSF0_5EuKzS9ZPRJY4Oc282N2sSRdKPSDbeSMXck971CAdnpvPt2xcwaMpPPEyA-PJ586NRKrawWlHhWFfo8D2q70uAtGgOuOW75ZzO9a" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A stunning custom backdrop with neon lettering saying 'Happy Birthday' surrounded by pink and lavender flowers." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHZT_fe5ypBJNBTZ95d0fHkPfPt8Py_x6E6z0FDH5UDK_FBY2PDb3RwF_Vv3H8PMHlNdYxgP_Sw6nGb8rnSNFfTNrGqvTTDOJ5Me9qs8lR1HQWbplFgCspdIPP9S2noa1prEarNo9c4cntrw4JMAf6OAq0V4vB0U3_SbMFrJpNrNJuBKNVfA4tObH8XhQs6pdre1P6zn1bDGVCiSgNvzZBsR27ylJhBdhBotMlfYCBcr5zqrBbg_YwW5oFQN0oYNUfllUvm3XlyX8a" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A delightful peach-themed baby shower with fruit decorations and flowing pastel fabrics." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXKmkc9VAn2040v5vF0wCMehH1LUlLJrBmljH8oFUtTS-PcLRfSQzewCGBBRdDtWnXJ2CJnLUvty7uGyqh25LACvmYBswrcm27lTKA8aNB_7GZVctDUU_olCzGh8nb4ADqcrxQSfmzqI8YXl9KMCzerbobQWVbnSHKxIR8pIeNZx14BYka6XBunl80UOHx2WrVDSAUbLWe_S5OISTymhuYSc1o-bSEwD037CFYixNgUwVBmTuHsJxsE30THkO-fZFbB7Uof3cCXxc2" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A royal anniversary party with deep reds, golds, and opulent floral arrangements." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJLVrGIZyTJe8TBefU1m0sPHiSQS7jH3PNLSi8pi641SRn9qMC5OhrIPYLXDd_KQmTuz6f3re9xSBU4HbgFsx9bgmwo_DK6-lfor-WiYccV2-iYwcyMKiJPYOkC5ZareCZYthdFT-b_H3aEVTGzddUdorHncu_7LjDs4hSNCdb1naObKTZpvdhoxrxFcQ94sTc2x9HOST5DzF_0yTcsLVYzAnNBxt9rNMVurjdMphu5jagNdqkYZCq6NCp4WDfjPOJtziBKniVl0-X" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A lavender haze celebration with purple lighting and sparkling decorations hanging from the ceiling." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVaqGQ1GcKXxCvxb_9y5njbD3vkegv6KUzlc3LSVU3s5sOhQOl42_Jtu95qeQYUpUMp6wvbouefZX8_LC5Jq7ee4Ugc2eu65NgIOqp7T04Pr0wsEDhsTZcbfh1pMyfzrtYqx9ndmQmflO-edJJs_fEN-DEB_8TWHZNudBx56jcs5ynWrNeKCovYO27SIq5ner0Sq8nZ-6gJp9E5vVDW3WSMXWRTWqUx-0s1O-R_z2v7GKZv_t4IMMM08DkQDvRQjLO55YViVsw9wJX" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A whimsical woodland-themed first birthday party setup with mushroom decorations and a rustic cake." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV3FK7Vy29aFyRs1zA_pVWYarG3t7FdRg8xDhh3uIav8Dc068bSn1GrG-5BmnpndZz-0DtMipHgBB40Gm1zPV-e812XQCw-iY_qMD9ZCCVVSYsmEl7aZGXg5yFu4MXGOTU8zwd3XZ67SlT0wNX8Te0mZS93yJGCnzxq6j_252mbBBAMIbmr98jSXmRheNNwSy_9DF4J91UU0E7_CwhTZKjJlY6jRR0iCU9EdnNOlNmgTWLNLS9VySgTeOn5Zi9mzNhMQR_qylYMN1Q" />
+          </div>
+          <div class="mb-4 break-inside-avoid">
+            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A whimsical first birthday setup featuring a hot air balloon theme and pastel colors." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKjxIgyHwwD31RhAEyC-ooeOW5Pp3ftPlO8WoQ2aB6z_l0FNTBRZnJdVqbj3nEf_H_VN5ubX5-N4x6NikS8VxBfVRr7wnT2dOOgptej-Furi42EIOX6Xhw3obNpovHE-nABd4-gka9Dmj5IsJUW7Xpto1RzSMts_jDwoNzZkM1dbMh2zYZihu-mynKKExVaJDPmCtK3j9HaNaABiURM67bdrv64s9rODEW_XaNJTRY2mGkC6we0EgmdPtTOt1qdmpnZFL928ZpIynw" />
+          </div>
+        </div>
+      </main>
+    </section>
+    
+    <!-- Section 5: Testimonials -->
+    <section id="testimonials" class="py-16 bg-brand-ivory dark:bg-background-dark">
+      <h1 class="text-brand-text dark:text-ivory text-3xl font-display font-semibold leading-tight tracking-[-0.015em] flex-1 text-center pb-8">Testimonials</h1>
+      <main class="flex flex-col gap-6 px-4 py-6 max-w-2xl mx-auto">
+        <div class="flex w-full flex-col items-center justify-start gap-4 p-6 bg-brand-cream dark:bg-card-dark rounded-xl border border-primary/20 dark:border-primary/30 shadow-sm">
+          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-20 shrink-0 border-4 border-white dark:border-brand-cream/20 shadow-lg" data-alt="Portrait of Sarah at her birthday party" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADyK5fLcT-0D_PrA2Fn74kLs-Ly7L9ajQ9UGl2Y70ZbdT11qfdPRytqQUeVO5feLLBfpe_AJ831fuA4xqbyF6KrzHED8Ra3ZnltoQICMtT6D9ajd_inYzcSvxtch3EZEGrdV8RdoCil1pFF1SIXu3JDWLSkbh5ikLOc1gjGZZRznjAc0OtWKPeFq0nSzZUaQMe6dmjIylthxMDEbtO65V7e5UDNzXMGscAqozSGMLACw6XTMY4FngiLd68J7Ei9qDiaZAD-nNmrqH_");'></div>
+          <div class="flex h-full flex-1 flex-col items-center justify-start gap-2 text-center">
+            <p class="text-brand-text dark:text-ivory font-display italic text-lg leading-relaxed pt-1">
+              "Absolutely magical! The team turned my vision into a reality. Every detail was perfect and our guests were in awe."
+            </p>
+            <div class="flex w-full flex-col items-center pt-2">
+              <p class="text-gold-dark dark:text-gold-light text-base font-semibold leading-normal">Sarah</p>
+              <p class="text-brand-text/70 dark:text-ivory/70 text-sm font-normal leading-normal">30th Birthday Party</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex w-full flex-col items-center justify-start gap-4 p-6 bg-brand-cream dark:bg-card-dark rounded-xl border border-primary/20 dark:border-primary/30 shadow-sm">
+          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-20 shrink-0 border-4 border-white dark:border-brand-cream/20 shadow-lg" data-alt="The Miller family at their baby shower" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtnmpH_cgzoQo8fRkX1vGPPOVxuWHhwpU9zVLisUKaGHVjlkFOlcqqorWQDl0qmt49xpnA_tzvBoaBE8tUKpjJlp2gBVkEGS-7jBiGoKt1PKX1m3UK-b12-1B8QEQmD69nYaJUKwN8ADc4QEmrYwfceO3WuN7bXiJoEtgYuYyowofbEUKBZCdcxoEJ0zWcXLnjLmM7RMqjbDvthjr6eTvb2TbUxwtkce50xJxXJhFYiPVHA66j_KPK-04bRdNUodKJIRQTQ_EmcvNm");'></div>
+          <div class="flex h-full flex-1 flex-col items-center justify-start gap-2 text-center">
+            <p class="text-brand-text dark:text-ivory font-display italic text-lg leading-relaxed pt-1">
+              "The most beautiful and stress-free day. The decorations were beyond our wildest dreams. Thank you for creating such a special memory for us."
+            </p>
+            <div class="flex w-full flex-col items-center pt-2">
+              <p class="text-gold-dark dark:text-gold-light text-base font-semibold leading-normal">The Millers</p>
+              <p class="text-brand-text/70 dark:text-ivory/70 text-sm font-normal leading-normal">Baby Shower</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex w-full flex-col items-center justify-start gap-4 p-6 bg-brand-cream dark:bg-card-dark rounded-xl border border-primary/20 dark:border-primary/30 shadow-sm">
+          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-20 shrink-0 border-4 border-white dark:border-brand-cream/20 shadow-lg" data-alt="Emily &amp; John celebrating their anniversary" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbvNQUpoQ8iRt1A2akol8w071b1D2YdVXdih1FWJYJ1tTZdMSNen893jfevR0M0D4X2nfIg17FzAAvM13kmOHP7ekTUwUJs3pcgajnHBq4lgi-Eh_G2bHnFdwMTOG6ovHxIuWtzOinZs2gYiZ9sRBrNda0BqSti1bQso5x7xDH8zO92YC8TCSzI7KqKbY2EQ6U3_BiSrP0beMq8rHJ15fCa9LRHQjBS2RL64QXbd3AmVD9wzfAOCt4ym7Uqbqk_p7ubTc9QO4ZnjZx");'></div>
+          <div class="flex h-full flex-1 flex-col items-center justify-start gap-2 text-center">
+            <p class="text-brand-text dark:text-ivory font-display italic text-lg leading-relaxed pt-1">
+              "Our anniversary was a fairy tale come true. The romantic ambiance and stunning decor left us speechless. Highly recommended!"
+            </p>
+            <div class="flex w-full flex-col items-center pt-2">
+              <p class="text-gold-dark dark:text-gold-light text-base font-semibold leading-normal">Emily &amp; John</p>
+              <p class="text-brand-text/70 dark:text-ivory/70 text-sm font-normal leading-normal">Anniversary Event</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-6 pt-12 pb-8">
+          <h2 class="text-brand-text dark:text-ivory tracking-tight text-3xl font-display font-semibold leading-tight px-4 text-center">Ready to Create Your Own Memory?</h2>
+          <p class="text-brand-text/80 dark:text-ivory/80 text-center max-w-md">Let us bring your dream event to life with our passion for perfection and creative flair. Contact us today to start planning.</p>
+          <button class="flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded-full shadow-lg shadow-gold/30 hover:bg-gold-dark transition-all transform hover:scale-105">
+            <span>Plan Your Dream Event</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </main>
+    </section>
+
+    <!-- Section 6: Booking -->
+    <section id="booking" class="w-full flex-1 px-4 sm:px-6 py-16 bg-gradient-to-br from-[#FFF8E7] via-[#FFFDF5] to-[#FDF5E6] dark:from-background-dark dark:to-black">
+      <div class="mx-auto flex max-w-5xl flex-col lg:flex-row lg:items-center lg:gap-12">
+        <div class="flex-1 lg:order-2">
+          <div class="aspect-square w-full overflow-hidden rounded-xl shadow-lg @container sm:aspect-[4/3] lg:aspect-square">
+            <div class="h-full w-full bg-cover bg-center bg-no-repeat" data-alt="A beautifully decorated baby shower with pastel balloon garlands and an elegant dessert table." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWtVg1N5hU2yw8M67XR1XkcoeyuJOZ0cI9RUqHgoF_okI-k-jr8XE905UrGbh9iznXk5eSzyhL7pzioOj8fC6O-m_BvKubFLfbNanKIQp6lHF2V8GEuVaaououyGLMtEuIiXt9gU5-T5SJkYHUClt2R1rx65mChsV0Y54STDGMNpXfQMXqaLC6lHRaTNouVrRPluod5In_uOpkeOoOTWe3Igjh3DIaFk8sHG2rqNhkAzejVYB8ST7qIHw-fNrXXOBsNQeYGW1DsQtQ");'></div>
+          </div>
+        </div>
+        <div class="w-full flex-1 py-8 lg:order-1 lg:py-12">
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+              <div class="h-0.5 flex-1 rounded-full bg-text-light/10 dark:bg-text-dark/20">
+                <div class="h-full w-1/4 rounded-full bg-primary"></div>
+              </div>
+              <span class="text-sm font-medium text-text-light/70 dark:text-text-dark/70">Step 1 of 4</span>
+            </div>
+            <h1 class="font-serif text-[32px] font-bold leading-tight tracking-tight text-text-light dark:text-text-dark md:text-4xl">Let's Plan Your Dream Event</h1>
+          </div>
+          <form class="mt-8 flex flex-col gap-4">
+            <label class="flex flex-col">
+              <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark">Full Name</p>
+              <input class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50" placeholder="Enter your full name" type="text" />
+            </label>
+            <label class="flex flex-col">
+              <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark">Event Type</p>
+              <div class="relative">
+                <select class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 pr-10 text-base font-normal leading-normal text-text-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark">
+                  <option>Birthday</option>
+                  <option>Baby Shower</option>
+                  <option>Anniversary</option>
+                  <option>Customized Event</option>
+                </select>
+                <span class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark">expand_more</span>
+              </div>
+            </label>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <label class="flex flex-col">
+                <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark">Event Date</p>
+                <div class="relative">
+                  <input class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 pr-12 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50" placeholder="Select a date" type="date" />
+                  <span class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark">calendar_today</span>
+                </div>
+              </label>
+              <label class="flex flex-col">
+                <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark">Location</p>
+                <input class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50" placeholder="e.g., City, State" type="text" />
+              </label>
+            </div>
+            <button class="mt-4 flex h-14 w-full items-center justify-center rounded-lg bg-primary text-base font-bold text-white shadow-[0_4px_14px_0_rgb(0,0,0,10%)] transition-transform duration-200 ease-in-out hover:scale-[1.02] hover:shadow-[0_6px_20px_0_rgb(0,0,0,13%)] active:scale-[0.98] dark:text-background-dark">Check Availability</button>
+            <p class="text-center text-sm text-text-light/70 dark:text-text-dark/70">We'll get back to you within 24 hours.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: FAQ -->
+    <section id="faq" class="py-16">
+      <h2 class="text-text-light dark:text-text-dark text-3xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center font-serif">Frequently Asked Questions</h2>
+      <div class="px-4 py-3 max-w-2xl mx-auto">
+        <label class="flex flex-col min-w-40 h-12 w-full">
+          <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+            <div class="text-subtle-text-light dark:text-subtle-text-dark flex border-none bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
+              <span class="material-symbols-outlined text-2xl">search</span>
+            </div>
+            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary/50 h-full placeholder:text-subtle-text-light dark:placeholder:text-subtle-text-dark px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search for a question..." value="" />
+          </div>
+        </label>
+      </div>
+      
+      <div class="flex flex-col p-4 pt-0 max-w-2xl mx-auto">
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group" open="">
+          <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-sans">What types of events do you decorate?</p>
+            <div class="text-text-light dark:text-text-dark group-open:rotate-180 transition-transform">
+              <span class="material-symbols-outlined text-2xl">expand_more</span>
+            </div>
+          </summary>
+          <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-relaxed pb-2 font-sans">We specialize in a wide range of premium events, including birthday parties, baby showers, anniversary celebrations, and corporate gatherings. We also offer fully customized décor experiences tailored to your unique vision.</p>
+        </details>
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group">
+          <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-sans">How does the booking process work?</p>
+            <div class="text-text-light dark:text-text-dark group-open:rotate-180 transition-transform">
+              <span class="material-symbols-outlined text-2xl">expand_more</span>
+            </div>
+          </summary>
+          <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-relaxed pb-2 font-sans">Our booking process is simple. Start with an initial consultation to discuss your vision, receive a customized proposal, and then secure your date with a deposit. We handle all the details from there!</p>
+        </details>
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group">
+          <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-sans">What are your pricing and payment options?</p>
+            <div class="text-text-light dark:text-text-dark group-open:rotate-180 transition-transform">
+              <span class="material-symbols-outlined text-2xl">expand_more</span>
+            </div>
+          </summary>
+          <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-relaxed pb-2 font-sans">Pricing varies based on the scale and complexity of your event. We offer transparent package pricing and custom quotes. We accept various payment methods, with a deposit required to secure your booking.</p>
+        </details>
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group">
+          <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-sans">Can you customize decorations to a specific theme?</p>
+            <div class="text-text-light dark:text-text-dark group-open:rotate-180 transition-transform">
+              <span class="material-symbols-outlined text-2xl">expand_more</span>
+            </div>
+          </summary>
+          <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-relaxed pb-2 font-sans">Absolutely! Customization is our specialty. Whether you have a specific theme in mind or need help creating one, our designers will work with you to bring your dream event to life with unique, personalized decor.</p>
+        </details>
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark border-b border-b-border-light dark:border-b-border-dark py-2 group">
+          <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
+            <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-sans">What is included in the event day setup?</p>
+            <div class="text-text-light dark:text-text-dark group-open:rotate-180 transition-transform">
+              <span class="material-symbols-outlined text-2xl">expand_more</span>
+            </div>
+          </summary>
+          <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-relaxed pb-2 font-sans">Our service is full-range. We handle delivery, complete setup of all decorations before your guests arrive, and takedown after the event concludes, ensuring a seamless and stress-free experience for you.</p>
+        </details>
+      </div>
+
+      <div class="p-4 pt-8 pb-6 @container max-w-2xl mx-auto">
+        <div class="flex flex-1 flex-col items-start justify-between gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-5 @[480px]:flex-row @[480px]:items-center">
+          <div class="flex flex-col gap-1">
+            <p class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Still have questions?</p>
+            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Our team is here to help with any inquiries.</p>
+          </div>
+          <button class="flex w-full @[480px]:w-auto min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-light dark:text-background-dark text-sm font-medium leading-normal shadow-sm hover:opacity-90 transition-opacity">
+            <span class="truncate">Contact Our Team</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-4 sm:p-6 py-10 bg-brand-cream dark:bg-background-dark">
+      <p class="text-center text-xs text-subtle-text-light dark:text-subtle-text-dark">© 2024 Elegance Events. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Lightbox Script (from Gallery) -->
+  <script>
+    function openLightbox(element) {
+      document.getElementById('lightbox-img').src = element.src;
+      document.getElementById('lightbox-caption').textContent = element.dataset.alt;
+      document.getElementById('lightbox').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+</body>
+
+</html>
