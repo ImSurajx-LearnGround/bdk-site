@@ -68,51 +68,87 @@
   </script>
   
   <style>
-    /* Styles from Gallery */
-    .font-serif-display {
-      font-family: 'Playfair Display', serif;
-    }
-    .font-sans-body {
-      font-family: 'Epilogue', sans-serif;
-    }
-    body {
-      min-height: max(884px, 100dvh);
-      font-family: 'Poppins', sans-serif;
-    }
-    /* Styles from Services */
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Playfair Display', serif;
-    }
-    /* Styles from Testimonials */
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
-    }
-    /* Styles from Events */
-    .form-input {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-    }
-    /* Added for smooth scrolling */
+    /* ... (Other existing styles remain the same) ... */
     html {
       scroll-behavior: smooth;
     }
-
-    /* Styles for the active nav link */
     .nav-link-active {
-      color: #C5A352 !important; /* Uses primary color */
+      color: #C5A352 !important; 
       transform: scale(1.1);
+    }
+    /* Apply transition to both tracks */
+    #carousel-track-1, 
+    #carousel-track-2 {
+        transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+        flex-shrink: 0;
+        /* Width adjusted for mobile to hint next item slightly */
+        width: calc(100% - 2rem); 
+        margin-right: 1rem; /* Simulate gap on mobile */
+    }
+     /* Removed scroll snap and overflow-x: auto from viewport */
+     #carousel-viewport {
+        overflow-x: hidden; /* JS will handle overflow */
+        /* Removed scroll snap properties */
+        /* Removed scrollbar hiding properties */
+    }
+    
+     @media (min-width: 640px) { /* sm */
+      .carousel-item {
+         /* Width for 2 items with 1rem gap */
+        width: calc((100% / 2) - (1rem * 1 / 2)); 
+        margin-right: 0; 
+      }
+    }
+     @media (min-width: 768px) { /* md */
+        .carousel-item {
+            /* Width for 3 items with 1rem gap */
+            width: calc((100% / 3) - (1rem * 2 / 3)); 
+        }
+    }
+    @media (min-width: 1024px) { /* lg */
+        .carousel-item {
+            /* Width for 6 items with 1rem gap */
+            width: calc((100% / 6) - (1rem * 5 / 6)); 
+        }
+    }
+    .carousel-button {
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      width: 2.5rem; 
+      height: 2.5rem; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 10;
+      transition: background-color 0.2s;
+      cursor: pointer; 
+    }
+    .carousel-button:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+     .carousel-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+     }
+    .carousel-button .material-symbols-outlined {
+        font-size: 1.5rem; 
+    }
+     #about .grid > div {
+        height: 100%; 
     }
   </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
 
-  <!-- Lightbox (from Gallery) -->
+  <!-- Lightbox -->
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 hidden" id="lightbox" onclick="closeLightbox()">
     <div class="relative max-w-3xl max-h-full" onclick="event.stopPropagation()">
-      <img alt="" class="rounded-xl object-contain max-h-[80vh]" id="lightbox-img" src="" />
-      <p class="text-center text-white mt-4 font-light text-sm" id="lightbox-caption"></p>
+      <img alt="Gallery image large view" class="rounded-xl object-contain max-h-[80vh]" id="lightbox-img" src="" />
       <button class="absolute top-2 right-2 text-white bg-black/50 rounded-full p-2" onclick="closeLightbox()">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -124,130 +160,132 @@
 
     <!-- Section 1: Hero -->
     <section id="hero" class="relative flex min-h-screen flex-col items-center justify-center p-6 text-center overflow-hidden bg-brand-cream dark:bg-background-dark">
-      <!-- Logo added to Hero -->
-      <div class="absolute top-0 left-0 p-6 z-20">
-        <h2 class="text-xl font-bold font-display text-text-light dark:text-text-dark">Elegance Events</h2>
-      </div>
-      
-      <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfTxRN3pMajq2iBCjnNYAAaMZ-MlQkfTmC4eQSeVvH2eekEuFqBRjyK0jOwRIubv-PmeGsvHRSpyZeW8OKtz9zCMtk-X3_qX3KYs4D5WQXtjavOhQzoPC1snNuePGYkthPZLxi6QzjkDsl-_897OE6-s2qiXfzH9Rdb7VxAIbkwYQEhKTUmKs4YZpieatDWpNJC1OOlrVqLphRnIo_pbzb6zi-J31l4_7sphfmBV-xB_SOo4jxJdQayBiEw_ny70cjFYv0iM0nleRZ'); opacity: 0.15;"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-brand-cream dark:from-background-dark via-brand-cream/50 dark:via-background-dark/50 to-transparent"></div>
-        <div class="absolute -top-1/4 -right-1/4 w-3/4 h-3/4 opacity-40">
-          <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain -rotate-45" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5VqC8ot-CE9TAhijf6pyVr12eqw8Jd702REk6F_akhYk2nwItmqeYOZj9miw30lsZnaRBsyFjYtBlul3V7MuWs-SbYOgCs-0nL1fpS9M0XDhiBxhSO2KUQBK8sIl2RatjiAYryFTehgXQG-kaHuVcFaTz276FisEMnyPZUXkxIIyRs6fEYZcGNx7SqwfWf5HeiPH49y0voWfff43wEAW8vs8iYXPBtOsh__M_VRg7NCHveEjVj90w87cfK7B0thvKRB0q9-jwupjR" />
+        <div class="absolute top-0 left-0 p-6 z-20">
+            <h2 class="text-xl font-bold font-display text-text-light dark:text-text-dark">Birthday Decoration King</h2>
         </div>
-        <div class="absolute -bottom-1/4 -left-1/4 w-3/4 h-3/4 opacity-40">
-          <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain rotate-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdHrgxwxOfoRkO8YKYki7BzhBKZYKYq5bAer_Y57dGzf140AWRzC9lNHphgrA5SSfvXVLy8vJa493ky9hLV__MUBmGaVJrCoU4xpoHLAkNnh772Q4PnsdXh_ZimkmW7YHERy4cbSiDBYVuoEryJ7jSXPGWvR8BTs6beihMT75boNQ6xmtzH27XqIJTFZgQSJtZqm-JAlFt8Tq4nyX44WIRg4k-LmcBXiMB-WQsXdG1e603mPmEnwe3XQQLA1kSbHqecAdZAyLPIeY2" />
+        
+        <div class="absolute inset-0 z-0">
+            <div 
+                class="absolute inset-0 bg-cover bg-center opacity-15" 
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfTxRN3pMajq2iBCjnNYAAaMZ-MlQkfTmC4eQSeVvH2eekEuFqBRjyK0jOwRIubv-PmeGsvHRSpyZeW8OKtz9zCMtk-X3_qX3KYs4D5WQXtjavOhQzoPC1snNuePGYkthPZLxi6QzjkDsl-_897OE6-s2qiXfzH9Rdb7VxAIbkwYQEhKTUmKs4YZpieatDWpNJC1OOlrVqLphRnIo_pbzb6zi-J31l4_7sphfmBV-xB_SOo4jxJdQayBiEw_ny70cjFYv0iM0nleRZ');">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-cream dark:from-background-dark via-brand-cream/50 dark:via-background-dark/50 to-transparent"></div>
+            <div class="absolute -top-1/4 -right-1/4 w-3/4 h-3/4 opacity-40">
+            <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain -rotate-45" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5VqC8ot-CE9TAhijf6pyVr12eqw8Jd702REk6F_akhYk2nwItmqeYOZj9miw30lsZnaRBsyFjYtBlul3V7MuWs-SbYOgCs-0nL1fpS9M0XDhiBxhSO2KUQBK8sIl2RatjiAYryFTehgXQG-kaHuVcFaTz276FisEMnyPZUXkxIIyRs6fEYZcGNx7SqwfWf5HeiPH49y0voWfff43wEAW8vs8iYXPBtOsh__M_VRg7NCHveEjVj90w87cfK7B0thvKRB0q9-jwupjR" />
+            </div>
+            <div class="absolute -bottom-1/4 -left-1/4 w-3/4 h-3/4 opacity-40">
+            <img alt="Abstract golden ribbons overlay" class="w-full h-full object-contain rotate-12" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdHrgxwxOfoRkO8YKYki7BzhBKZYKYq5bAer_Y57dGzf140AWRzC9lNHphgrA5SSfvXVLy8vJa493ky9hLV__MUBmGaVJrCoU4xpoHLAkNnh772Q4PnsdXh_ZimkmW7YHERy4cbSiDBYVuoEryJ7jSXPGWvR8BTs6beihMT75boNQ6xmtzH27XqIJTFZgQSJtZqm-JAlFt8Tq4nyX44WIRg4k-LmcBXiMB-WQsXdG1e603mPmEnwe3XQQLA1kSbHqecAdZAyLPIeY2" />
+            </div>
         </div>
-      </div>
-      <div class="relative z-10 flex flex-col gap-4 max-w-3xl px-4">
-        <h1 class="text-text-light dark:text-text-dark text-5xl font-display font-semibold leading-tight" style="text-shadow: 1px 1px 3px rgba(255, 251, 239, 0.5);">
-          Turning Moments into Magical Memories 🎉
-        </h1>
-        <h2 class="text-subtle-text-light dark:text-subtle-text-dark text-lg font-light leading-relaxed max-w-lg mx-auto font-body">
-          From intimate celebrations to grand events — we create décor that speaks love, joy, and style.
-        </h2>
-      </div>
-      <div class="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 justify-center mt-8">
-        <!-- Changed button to anchor link for scrolling -->
-        <a href="#booking" class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-gradient-to-br from-[#EAD9B8] to-[#C5A352] text-brand-dark text-base font-semibold uppercase tracking-wider shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.4)] transition-all duration-300 ease-in-out hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.4)] hover:brightness-105 transform hover:scale-105 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] active:brightness-95">
-          <span class="truncate">Book Your Event</span>
-        </a>
-        <!-- Changed button to anchor link for scrolling -->
-        <a href="#gallery" class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-transparent text-text-light dark:text-text-dark text-base font-semibold uppercase tracking-wider border-2 border-[#D6BB81] shadow-[0_2px_6px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.1)] transition-all duration-300 ease-in-out hover:bg-brand-gold/10 hover:border-brand-gold hover:shadow-lg transform hover:scale-105">
-          <span class="truncate">View Gallery</span>
-        </a>
-      </div>
+        <div class="relative z-10 flex flex-col gap-4 max-w-3xl px-4">
+            <h1 class="text-text-light dark:text-text-dark text-5xl font-display font-semibold leading-tight" style="text-shadow: 1px 1px 3px rgba(255, 251, 239, 0.5);">
+            Turning Moments into Magical Memories 🎉
+            </h1>
+            <h2 class="text-subtle-text-light dark:text-subtle-text-dark text-lg font-light leading-relaxed max-w-lg mx-auto font-body">
+            From intimate celebrations to grand events — we create décor that speaks love, joy, and style.
+            </h2>
+        </div>
+        <div class="relative z-10 flex flex-col sm:flex-row flex-wrap gap-4 justify-center mt-8">
+            <a href="#booking" class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-gradient-to-br from-[#EAD9B8] to-[#C5A352] text-brand-dark text-base font-semibold uppercase tracking-wider shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.4)] transition-all duration-300 ease-in-out hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.4)] hover:brightness-105 transform hover:scale-105 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] active:brightness-95">
+            <span class="truncate">Book Your Event</span>
+            </a>
+            <a href="#gallery" class="flex min-w-[180px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-8 bg-transparent text-text-light dark:text-text-dark text-base font-semibold uppercase tracking-wider border-2 border-[#D6BB81] shadow-[0_2px_6px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.1)] transition-all duration-300 ease-in-out hover:bg-brand-gold/10 hover:border-brand-gold hover:shadow-lg transform hover:scale-105">
+            <span class="truncate">View Gallery</span>
+            </a>
+        </div>
     </section>
 
     <!-- Section 2: About Us -->
     <section id="about" class="py-16">
-      <div class="@container">
-        <div class="@[480px]:px-4 @[480px]:py-3 px-4">
-          <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden @[480px]:rounded-xl min-h-80 rounded-xl" data-alt="A collage of elegantly decorated events in gold, ivory, and cream, featuring balloon arches, floral arrangements, and festive table settings." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGKxYjy7nL83yMVXJOq52BYSkV01_aNle1keP_7tXmh_6NNblpvLcglZsyq3L8vqDrO2AFrqPxV5Wd-ZOG6VGaqHsD2kr_VhQGaRXUKVK3Vm8B3CW4vGFZUC4Uo4HZA8kummklNOwtBASsnJpT5m0IsGEO50T3MgFGAy2ghPANv9QMUPCJmm-VsWxh3cqu9g9ZMUivxqUkD_kfGQp4Y-P2BsN9Xbm_Ftvrdm8veK6P0yYKuUfO2Dmn87Jqr5LaEIaNmQ7zu2C3U-Vv");'></div>
+        <div class="@container">
+            <div class="@[480px]:px-4 @[480px]:py-3 px-4">
+            <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden @[480px]:rounded-xl min-h-80 rounded-xl" data-alt="A collage of elegantly decorated events in gold, ivory, and cream, featuring balloon arches, floral arrangements, and festive table settings." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGKxYjy7nL83yMVXJOq52BYSkV01_aNle1keP_7tXmh_6NNblpvLcglZsyq3L8vqDrO2AFrqPxV5Wd-ZOG6VGaqHsD2kr_VhQGaRXUKVK3Vm8B3CW4vGFZUC4Uo4HZA8kummklNOwtBASsnJpT5m0IsGEO50T3MgFGAy2ghPANv9QMUPCJmm-VsWxh3cqu9g9ZMUivxqUkD_kfGQp4Y-P2BsN9Xbm_Ftvrdm8veK6P0yYKuUfO2Dmn87Jqr5LaEIaNmQ7zu2C3U-Vv");'></div>
+            </div>
         </div>
-      </div>
-      <div class="h-5"></div>
-      <h1 class="text-text-light dark:text-text-dark tracking-tight text-4xl font-bold leading-tight px-4 text-center pb-3 pt-6 font-serif">Crafting Unforgettable Moments</h1>
-      <div class="h-5"></div>
-      <p class="text-text-light dark:text-text-dark text-base font-normal leading-relaxed pb-3 pt-1 px-4 text-center max-w-2xl mx-auto font-sans">At Birthday Decoration King, we believe every celebration deserves perfection. Our designs blend creativity, empathy, and elegance — transforming your special day into a masterpiece.</p>
-      <div class="h-5"></div>
-      <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4 max-w-4xl mx-auto">
-        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
-          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">celebration</span>
-          <div class="flex flex-col gap-1">
-            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Creativity</h2>
-            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Unique and inspired designs</p>
-          </div>
+        <div class="h-5"></div>
+        <h1 class="text-text-light dark:text-text-dark tracking-tight text-4xl font-bold leading-tight px-4 text-center pb-3 pt-6 font-serif">Crafting Unforgettable Moments</h1>
+        <div class="h-5"></div>
+        <p class="text-text-light dark:text-text-dark text-base font-normal leading-relaxed pb-3 pt-1 px-4 text-center max-w-2xl mx-auto font-sans">At Birthday Decoration King, we believe every celebration deserves perfection. Our designs blend creativity, empathy, and elegance — transforming your special day into a masterpiece.</p>
+        <div class="h-5"></div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 p-4 max-w-4xl mx-auto">
+            <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center h-full">
+            <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">celebration</span>
+            <div class="flex flex-col gap-1">
+                <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Creativity</h2>
+                <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Unique and inspired designs</p>
+            </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center h-full">
+            <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">auto_awesome</span>
+            <div class="flex flex-col gap-1">
+                <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Elegance</h2>
+                <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Sophisticated and timeless decor</p>
+            </div>
+            </div>
+            <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center h-full">
+            <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">edit</span>
+            <div class="flex flex-col gap-1">
+                <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Customization</h2>
+                <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Tailored to your perfect vision</p>
+            </div>
+            </div>
+             <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center h-full">
+                <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">visibility</span> 
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Attention to Detail</h2>
+                    <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Meticulously planned execution</p>
+                </div>
+            </div>
         </div>
-        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
-          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">auto_awesome</span>
-          <div class="flex flex-col gap-1">
-            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Elegance</h2>
-            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Sophisticated and timeless decor</p>
-          </div>
+        <div class="h-5"></div>
+        <div class="flex px-4 py-3 max-w-xs mx-auto">
+            <a href="#gallery" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-primary text-background-light dark:text-background-dark text-base font-bold leading-normal tracking-[0.015em] font-sans hover:opacity-90 transition-opacity">
+            <span class="truncate">Explore Our Creations</span>
+            </a>
         </div>
-        <div class="flex flex-1 gap-3 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 flex-col items-center text-center">
-          <span class="material-symbols-outlined text-text-light dark:text-text-dark text-3xl">edit</span>
-          <div class="flex flex-col gap-1">
-            <h2 class="text-text-light dark:text-text-dark text-base font-bold leading-tight font-sans">Customization</h2>
-            <p class="text-subtle-text-light dark:text-subtle-text-dark text-sm font-normal leading-normal font-sans">Tailored to your perfect vision</p>
-          </div>
-        </div>
-      </div>
-      <div class="h-5"></div>
-      <div class="flex px-4 py-3 max-w-xs mx-auto">
-        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-primary text-background-light dark:text-background-dark text-base font-bold leading-normal tracking-[0.015em] font-sans hover:opacity-90 transition-opacity">
-          <span class="truncate">Explore Our Creations</span>
-        </button>
-      </div>
     </section>
 
     <!-- Section 3: Services -->
-    <section id="services" class="py-16 px-4">
-      <h1 class="font-serif text-text-light dark:text-text-dark tracking-tight text-[36px] font-bold leading-tight text-center pb-4 pt-8">Our Signature Services</h1>
-      <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
-            <span class="material-symbols-outlined text-accent-gold">cake</span>
-          </div>
-          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Birthday Party Décor</p>
-          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Joyful designs for every age.</p>
+    <section id="services" class="py-16 px-4 container mx-auto">
+        <div class="text-center mb-12">
+            <span class="bg-primary/10 text-primary text-sm rounded-full px-4 py-2 inline-block mb-4">🚀 Discover what we offer</span>
+            <h1 class="font-serif text-text-light dark:text-text-dark tracking-tight text-4xl font-bold leading-tight">Our Signature Services</h1>
         </div>
-        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
-            <span class="material-symbols-outlined text-accent-gold">stroller</span>
-          </div>
-          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Baby Shower Setups</p>
-          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Welcome your little one in style.</p>
+
+        <div>
+            <div class="relative mb-6"> 
+                <button id="prev-service" class="carousel-button absolute left-0 top-1/2 -translate-y-1/2 -ml-4 lg:-ml-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
+                </button>
+                <div id="carousel-viewport" class="overflow-hidden mx-8 lg:mx-10">
+                    <div id="carousel-track-1" class="flex gap-4 mb-4"> 
+                        <!-- Service cards (row 1) dynamically added -->
+                    </div>
+                    <div id="carousel-track-2" class="flex gap-4"> 
+                        <!-- Service cards (row 2) dynamically added -->
+                    </div>
+                </div>
+                <button id="next-service" class="carousel-button absolute right-0 top-1/2 -translate-y-1/2 -mr-4 lg:-mr-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                     <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_right</span>
+                </button>
+            </div>
+
+            <div class="w-full flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-6 text-center transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10 mt-8">
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-accent-gold/10">
+                    <span class="material-symbols-outlined text-accent-gold text-3xl">auto_awesome</span>
+                </div>
+                <p class="text-base font-semibold leading-tight text-text-light dark:text-text-dark font-body">Custom Theme Design</p>
+                <p class="text-sm font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Your unique vision, brought to life.</p>
+            </div>
         </div>
-        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
-            <span class="material-symbols-outlined text-accent-gold">favorite</span>
-          </div>
-          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Anniversary &amp; Couple Themes</p>
-          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Celebrating your love story.</p>
+
+        <div class="flex px-4 py-6 max-w-sm mx-auto mt-12">
+            <a href="#booking" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 flex-1 bg-accent-gold text-white text-base font-semibold leading-normal tracking-[0.015em] w-full shadow-lg shadow-accent-gold/30 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                <span class="truncate">Start Planning Your Event</span>
+            </a>
         </div>
-        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-4 text-center aspect-square transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10">
-            <span class="material-symbols-outlined text-accent-gold">filter_vintage</span>
-          </div>
-          <p class="text-sm font-semibold leading-tight text-text-light dark:text-text-dark font-body">Flower &amp; Balloon Styling</p>
-          <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Breathtaking organic art.</p>
-        </div>
-        <div class="col-span-2 flex flex-col items-center justify-center gap-3 rounded-xl border border-accent-gold/20 bg-card-light dark:bg-card-dark p-6 text-center transition-shadow duration-300 hover:shadow-lg dark:hover:shadow-accent-gold/10">
-          <div class="flex items-center justify-center w-14 h-14 rounded-full bg-accent-gold/10">
-            <span class="material-symbols-outlined text-accent-gold text-3xl">auto_awesome</span>
-          </div>
-          <p class="text-base font-semibold leading-tight text-text-light dark:text-text-dark font-body">Custom Theme Design</p>
-          <p class="text-sm font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Your unique vision, brought to life.</p>
-        </div>
-      </div>
-      <div class="flex px-4 py-6 max-w-sm mx-auto">
-        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 flex-1 bg-accent-gold text-white text-base font-semibold leading-normal tracking-[0.015em] w-full shadow-lg shadow-accent-gold/30 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-          <span class="truncate">Start Planning Your Event</span>
-        </button>
-      </div>
     </section>
+
 
     <!-- Section 4: Gallery -->
     <section id="gallery" class="py-16">
@@ -256,42 +294,42 @@
         <p class="text-xs text-subtle-text-light">Gallery of Golden Moments</p>
       </div>
       <main class="container mx-auto p-4">
-        <div class="columns-2 gap-4 sm:columns-3 lg:columns-4">
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A beautifully set table for a golden anniversary gala with elegant gold cutlery and white floral centerpieces." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXnWaOw6pVEAzOu5ubiiEfxgEBiXcj3Ws_210-Bgc-8NxltAcqiB8N_DDo6I7P4izGGqFG0ci8ZRdhDjwnrcN5HbQKOsi02TR-Q5QIr9fvQg2TO6evm1jzc4fsGXMlgr4-yJq8zKrFaAI6f3JMwHZAe-b-bsWhEdfqy8hqsU681urKkPCujtLtxAspNO9MZePJuE_4PB22VNpb7iDW3Gq4RqHa2bwDaCUwNkoXsRO03cse3RUPC-aB3k7ZqIYKRCNXOidrHOJB6TwS" />
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="mb-4 aspect-square"> 
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 1" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipO8g9P_3DpRhKgcWcqEpzwr6CJK6La2myIHkwOX" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Close-up detail of an ivory and gold wedding cake with intricate sugar flowers." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4flycVskwbxnUw1I-I1tv4N_Esz96PIkPsPQWz69zanuhADzXK-r8MaOeDR4nOY0Oh4kDxBrpVnSGaK2qUzyLvuqDd2GCN2WX6qyifSDeKC8VqU5kzPBdohpMS3uLJJ0tHunejFluqlwMAjjTXgTsdbQmc9P_LId6ryNvYnF2QK9pgXPHMYkhWUfsdL1dWfxnuRhMEePyV84a5CpwV4HiEVFPmB_uSaxhwwsZKuiIGsRaHji66KdysFoh80DGSECksvYJ0H5oiTMx" />
+          <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 2" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipNt7_SdzhVN2mW6F377Knuu9FwC677EeWlvteKV" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A wide shot of a modern chic anniversary event with minimalist decor and soft ambient lighting." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_1PgjyRimm48NjLQ9LSkH0-WYph7pIwJUQBh59Eo8zUiUJQIPni0QXDRvfMbo8KfGnUJBC5BerG9GFHHhq2xNH9YUYVfZ5cx2mQcwDoHc5fy7JcPuJDYMVzWS0w4Uv5hUIhOnNlEUshPL5OKABkk4sFDHwZWODDDa25PAkl8qGQZV80FyaV97aXbM8LJEj6N32E2c-EIdSXG44JdBMy0Hxyx1b_fTZUJCKVITUlefl2OrYf88MGeca_COSy4F37LMp7PyBt3rvbjl" />
+          <div class="mb-4 aspect-square">
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 3" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipOhOBbER3-_uv-oDs9SpfjOf1iP6krWIDGnyoCe" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A pink and gold dream party with shimmering backdrops and an abundance of balloons." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8mIk8G3S2Jm6mFzqdXoqtZM6GxptSiEFim-rOY2MT5o0RM7Qlyo5H2SfIotlNsdG-vJLCavH-cZiXfKyqZmmm0FPCJROfTUmmVmFugsbx5sKSmxAg4ZMtkxgtioBzGvVH-WZ2N3JHTjoY9jcaZamT_v7y7qTtaGtzESpU_prqnx7yQ5JmBDunLR9W8UEQN4U99DPHnE5Jk0WAPl_tclo4OaK3qIJkb3j-K32OrK_WTTJJDtzI3DCg_sSBm5JkEcsM5v5psRFXFoKj" />
+          <div class="mb-4 aspect-square">
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 4" onclick="openLightbox(this)" src="https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=1AIXXo1jkz2r-MIIS6MkTQ&amp;cb_client=search.gws-prod.gps&amp;w=496&amp;h=440&amp;yaw=229.63147&amp;pitch=0&amp;thumbfov=100" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Candid photo of guests laughing and enjoying the ambiance at an elegant evening party." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0q_vWJiJ1AlT5k-2anOrMk7Nl0VwaDCP7SMzw9GzUxMOukTH5PrTQJwTXgcxHvJNqZhO6-xi1xcuh8u636dRkfMWrVZAqo0NqlKNujetIPCconCXEJttCAizoL553Scj8zDzXFVW7gz6KheJ6Is9J_M5ZruJDRdFQ4D8ZGLVy1wgv6YKaF_cJA-fVhegRyNrmRcWL8-pGqQPr4sCCG1Q6o8U1AfYjolVxGNYijmD-zElEjNL0TDKyFNp6Oq7FugUplgg2GmfoLB8N" />
+          <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 5" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipMSHwPOfsfX8KSay7pDpS9LTPRIfLZi9_afoUdi" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="Close-up of a dreamy pastel balloon arch with floral accents for a baby shower." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeYlVKOBDh-x7h7SBkNDnRXVPin7RXWdwVmWEq4nfIrFNCwNxRQWUmVUWEo6ibJS58xWUYC6NsbPj_hVOwo473meOOZunnxRREjtPBfQOuBHsdy3E2kniBIMnOMZalPRMqKK5kICoEXeGJr4GjxYU3aOcteMB_-GsKlVDbSF0_5EuKzS9ZPRJY4Oc282N2sSRdKPSDbeSMXck971CAdnpvPt2xcwaMpPPEyA-PJ586NRKrawWlHhWFfo8D2q70uAtGgOuOW75ZzO9a" />
+          <div class="mb-4 aspect-square">
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 6" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipN7e3CR-Y15iKa7cL6Bja4DlFYSmb-F0YJTM4a_" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A stunning custom backdrop with neon lettering saying 'Happy Birthday' surrounded by pink and lavender flowers." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHZT_fe5ypBJNBTZ95d0fHkPfPt8Py_x6E6z0FDH5UDK_FBY2PDb3RwF_Vv3H8PMHlNdYxgP_Sw6nGb8rnSNFfTNrGqvTTDOJ5Me9qs8lR1HQWbplFgCspdIPP9S2noa1prEarNo9c4cntrw4JMAf6OAq0V4vB0U3_SbMFrJpNrNJuBKNVfA4tObH8XhQs6pdre1P6zn1bDGVCiSgNvzZBsR27ylJhBdhBotMlfYCBcr5zqrBbg_YwW5oFQN0oYNUfllUvm3XlyX8a" />
+          <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 7" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipM2W3QQRK5pOF6wCRPwDZYZmRDxCw_TOgjA5yYw" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A delightful peach-themed baby shower with fruit decorations and flowing pastel fabrics." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXKmkc9VAn2040v5vF0wCMehH1LUlLJrBmljH8oFUtTS-PcLRfSQzewCGBBRdDtWnXJ2CJnLUvty7uGyqh25LACvmYBswrcm27lTKA8aNB_7GZVctDUU_olCzGh8nb4ADqcrxQSfmzqI8YXl9KMCzerbobQWVbnSHKxIR8pIeNZx14BYka6XBunl80UOHx2WrVDSAUbLWe_S5OISTymhuYSc1o-bSEwD037CFYixNgUwVBmTuHsJxsE30THkO-fZFbB7Uof3cCXxc2" />
+           <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 8" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipN8SL8ns81-z0jTC-rVgL_gHnzlQkZ28JKK-YBK" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A royal anniversary party with deep reds, golds, and opulent floral arrangements." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJLVrGIZyTJe8TBefU1m0sPHiSQS7jH3PNLSi8pi641SRn9qMC5OhrIPYLXDd_KQmTuz6f3re9xSBU4HbgFsx9bgmwo_DK6-lfor-WiYccV2-iYwcyMKiJPYOkC5ZareCZYthdFT-b_H3aEVTGzddUdorHncu_7LjDs4hSNCdb1naObKTZpvdhoxrxFcQ94sTc2x9HOST5DzF_0yTcsLVYzAnNBxt9rNMVurjdMphu5jagNdqkYZCq6NCp4WDfjPOJtziBKniVl0-X" />
+          <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 9" onclick="openLightbox(this)" src="https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=1AIXXo1jkz2r-MIIS6MkTQ&amp;cb_client=maps_sv.tactile.gps&amp;w=496&amp;h=440&amp;yaw=229.63147&amp;pitch=0&amp;thumbfov=100" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A lavender haze celebration with purple lighting and sparkling decorations hanging from the ceiling." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVaqGQ1GcKXxCvxb_9y5njbD3vkegv6KUzlc3LSVU3s5sOhQOl42_Jtu95qeQYUpUMp6wvbouefZX8_LC5Jq7ee4Ugc2eu65NgIOqp7T04Pr0wsEDhsTZcbfh1pMyfzrtYqx9ndmQmflO-edJJs_fEN-DEB_8TWHZNudBx56jcs5ynWrNeKCovYO27SIq5ner0Sq8nZ-6gJp9E5vVDW3WSMXWRTWqUx-0s1O-R_z2v7GKZv_t4IMMM08DkQDvRQjLO55YViVsw9wJX" />
+          <div class="mb-4 aspect-square">
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Gallery image 10" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/p/AF1QipPfgjAagKVK4dZFRh0jp94CEfSBWtBTAlIh5Jf2" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A whimsical woodland-themed first birthday party setup with mushroom decorations and a rustic cake." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV3FK7Vy29aFyRs1zA_pVWYarG3t7FdRg8xDhh3uIav8Dc068bSn1GrG-5BmnpndZz-0DtMipHgBB40Gm1zPV-e812XQCw-iY_qMD9ZCCVVSYsmEl7aZGXg5yFu4MXGOTU8zwd3XZ67SlT0wNX8Te0mZS93yJGCnzxq6j_252mbBBAMIbmr98jSXmRheNNwSy_9DF4J91UU0E7_CwhTZKjJlY6jRR0iCU9EdnNOlNmgTWLNLS9VySgTeOn5Zi9mzNhMQR_qylYMN1Q" />
+           <div class="mb-4 aspect-square">
+            <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Pastel balloon arch" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeYlVKOBDh-x7h7SBkNDnRXVPin7RXWdwVmWEq4nfIrFNCwNxRQWUmVUWEo6ibJS58xWUYC6NsbPj_hVOwo473meOOZunnxRREjtPBfQOuBHsdy3E2kniBIMnOMZalPRMqKK5kICoEXeGJr4GjxYU3aOcteMB_-GsKlVDbSF0_5EuKzS9ZPRJY4Oc282N2sSRdKPSDbeSMXck971CAdnpvPt2xcwaMpPPEyA-PJ586NRKrawWlHhWFfo8D2q70uAtGgOuOW75ZzO9a" />
           </div>
-          <div class="mb-4 break-inside-avoid">
-            <img class="w-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" data-alt="A whimsical first birthday setup featuring a hot air balloon theme and pastel colors." onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKjxIgyHwwD31RhAEyC-ooeOW5Pp3ftPlO8WoQ2aB6z_l0FNTBRZnJdVqbj3nEf_H_VN5ubX5-N4x6NikS8VxBfVRr7wnT2dOOgptej-Furi42EIOX6Xhw3obNpovHE-nABd4-gka9Dmj5IsJUW7Xpto1RzSMts_jDwoNzZkM1dbMh2zYZihu-mynKKExVaJDPmCtK3j9HaNaABiURM67bdrv64s9rODEW_XaNJTRY2mGkC6we0EgmdPtTOt1qdmpnZFL928ZpIynw" />
+          <div class="mb-4 aspect-square">
+             <img class="w-full h-full rounded-xl object-cover cursor-pointer hover:opacity-90 transition-opacity" alt="Hot air balloon theme setup" onclick="openLightbox(this)" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKjxIgyHwwD31RhAEyC-ooeOW5Pp3ftPlO8WoQ2aB6z_l0FNTBRZnJdVqbj3nEf_H_VN5ubX5-N4x6NikS8VxBfVRr7wnT2dOOgptej-Furi42EIOX6Xhw3obNpovHE-nABd4-gka9Dmj5IsJUW7Xpto1RzSMts_jDwoNzZkM1dbMh2zYZihu-mynKKExVaJDPmCtK3j9HaNaABiURM67bdrv64s9rODEW_XaNJTRY2mGkC6we0EgmdPtTOt1qdmpnZFL928ZpIynw" />
           </div>
         </div>
       </main>
@@ -340,10 +378,10 @@
         <div class="flex flex-col items-center gap-6 pt-12 pb-8">
           <h2 class="text-brand-text dark:text-ivory tracking-tight text-3xl font-display font-semibold leading-tight px-4 text-center">Ready to Create Your Own Memory?</h2>
           <p class="text-brand-text/80 dark:text-ivory/80 text-center max-w-md">Let us bring your dream event to life with our passion for perfection and creative flair. Contact us today to start planning.</p>
-          <button class="flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded-full shadow-lg shadow-gold/30 hover:bg-gold-dark transition-all transform hover:scale-105">
+          <a href="#booking" class="flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded-full shadow-lg shadow-gold/30 hover:bg-gold-dark transition-all transform hover:scale-105">
             <span>Plan Your Dream Event</span>
             <span class="material-symbols-outlined">arrow_forward</span>
-          </button>
+          </a>
         </div>
       </main>
     </section>
@@ -412,7 +450,7 @@
             <div class="text-subtle-text-light dark:text-subtle-text-dark flex border-none bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
               <span class="material-symbols-outlined text-2xl">search</span>
             </div>
-            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary/50 h-full placeholder:text-subtle-text-light dark:placeholder:text-subtle-text-dark px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search for a question..." value="" />
+            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark focus:border-primary/50 h-full placeholder:text-subtle-text-light dark:placeholder:text-subtle-text-dark px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal font-sans" placeholder="Search for a question..." value="" />
           </div>
         </label>
       </div>
@@ -480,7 +518,6 @@
 
     <!-- Footer -->
     <footer class="p-4 sm:p-6 py-10 bg-brand-cream dark:bg-background-dark">
-      <!-- Added Social Icons -->
       <div class="flex justify-center gap-6 mb-6">
         <a href="#" aria-label="Instagram" class="text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -500,7 +537,7 @@
           </svg>
         </a>
       </div>
-      <p class="text-center text-xs text-subtle-text-light dark:text-subtle-text-dark">© 2024 Elegance Events. All rights reserved.</p>
+      <p class="text-center text-xs text-subtle-text-light dark:text-subtle-text-dark">© 2024 Birthday Decoration King. All rights reserved.</p>
     </footer>
 
   </div>
@@ -510,7 +547,7 @@
               flex justify-around items-center z-40
               md:hidden
               opacity-0 translate-y-full transition-all duration-300 ease-in-out">
-    <a href="#hero" class="nav-link flex flex-col items-center justify-center text-subtle-text-light dark:text-subtle-text-dark transition-all duration-200" data-section="hero">
+    <a href="#hero" class="nav-link flex flex-col items-center justify-center text-subtle-text-light dark:text-subtle-text-dark transition-all duration-200 nav-link-active" data-section="hero"> 
       <span class="material-symbols-outlined">home</span>
       <span class="text-xs font-medium">Home</span>
     </a>
@@ -536,7 +573,6 @@
   <script>
     function openLightbox(element) {
       document.getElementById('lightbox-img').src = element.src;
-      document.getElementById('lightbox-caption').textContent = element.dataset.alt;
       document.getElementById('lightbox').classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     }
@@ -552,43 +588,332 @@
     document.addEventListener('DOMContentLoaded', (event) => {
       const bottomNav = document.getElementById('bottom-nav');
       const heroSection = document.getElementById('hero');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section');
       
       // Show/Hide bottom nav based on scroll
       const navObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Hero is visible, hide nav
             bottomNav.classList.add('opacity-0', 'translate-y-full');
+             navLinks.forEach(link => link.classList.remove('nav-link-active'));
+             const heroLink = document.querySelector('.nav-link[data-section="hero"]');
+             if (heroLink) heroLink.classList.add('nav-link-active');
           } else {
-            // Hero is not visible, show nav
             bottomNav.classList.remove('opacity-0', 'translate-y-full');
           }
         });
-      }, { threshold: 0.1 }); // 10% of hero visible
+      }, { threshold: 0.1 }); 
 
-      navObserver.observe(heroSection);
+      if (heroSection) navObserver.observe(heroSection);
 
-      // Active link highlighting
-      const navLinks = document.querySelectorAll('.nav-link');
-      const sections = document.querySelectorAll('section');
-
+      // Active link highlighting for other sections
       const activeLinkObserver = new IntersectionObserver((entries) => {
+         let isHeroVisible = false;
+         const heroElem = document.querySelector('#hero');
+         if (heroElem) {
+             const heroRect = heroElem.getBoundingClientRect();
+             isHeroVisible = heroRect.top < window.innerHeight && heroRect.bottom >= 0; 
+         }
+
+         if (isHeroVisible) return; 
+
+        let intersectingSectionId = null;
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const id = entry.target.id;
-            navLinks.forEach(link => {
+             intersectingSectionId = entry.target.id;
+          }
+        });
+
+        if (intersectingSectionId) {
+             navLinks.forEach(link => {
               link.classList.remove('nav-link-active');
-              if (link.dataset.section === id) {
+              if (link.dataset.section === intersectingSectionId) {
                 link.classList.add('nav-link-active');
               }
             });
-          }
-        });
-      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 }); // Active when section is in the middle 50% of the viewport
+        }
+
+      }, { rootMargin: '-40% 0px -60% 0px', threshold: 0 }); 
 
       sections.forEach(section => {
-        activeLinkObserver.observe(section);
+          if(section.id !== 'hero') { 
+             activeLinkObserver.observe(section);
+          }
       });
+
+      // Smooth scroll for internal links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if(targetElement){
+              const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 20; 
+              window.scrollTo({
+                  top: offsetTop,
+                  behavior: 'smooth'
+              });
+              
+              navLinks.forEach(link => link.classList.remove('nav-link-active'));
+              const correspondingNavLink = document.querySelector(`.nav-link[data-section="${targetId.substring(1)}"]`);
+              if(correspondingNavLink) {
+                  correspondingNavLink.classList.add('nav-link-active');
+              }
+              if (targetId === '#hero') {
+                 bottomNav.classList.add('opacity-0', 'translate-y-full'); 
+              } else if (heroSection && heroSection.getBoundingClientRect().top < 0) { 
+                 bottomNav.classList.remove('opacity-0', 'translate-y-full'); 
+              }
+          }
+        });
+      });
+      
+      // --- Service Carousel Logic ---
+
+       // --- Icon Mapping ---
+       const serviceIconMap = {
+            "Corporate and conference": "business_center",
+            "Anniversary party planning": "cake", // Using cake as generic party icon
+            "Baby shower planning": "child_friendly",
+            "Bar and bat mitzvah planning": "star", // Generic celebration
+            "Birthday party planning": "cake",
+            "Children's party planning": "child_care",
+            "Conference coordination": "groups",
+            "Conference planning": "event_note",
+            "Corporate events": "work",
+            "Decorations": "palette",
+            "Event decor design": "design_services",
+            "Event decor rental": "storefront",
+            "Event staffing": "support_agent",
+            "Outdoor event planning": "deck",
+            "Party planning": "celebration",
+            "Private event planning": "lock",
+            "Quinceanera": "cake", // Generic celebration
+            "Religious event": "church",
+            "Religious event planning": "church",
+            "Retirement party planning": "elderly",
+            "School event": "school",
+            "Team building event coordination": "diversity_3",
+            "Team building event planning": "handshake",
+            "Theme parties": "theater_comedy",
+            "Theme party": "theater_comedy",
+            "Balloon decoration": "balloon",
+            "Birthday decoration": "cake",
+            "Anniversary decoration": "favorite",
+            "Baby shower": "stroller",
+            "Welcome baby": "baby_changing_station",
+            "Theme birthday decoration": "cake",
+            "25th anniversary decoration": "silverware", // Placeholder
+            "50th anniversary decoration": "diamond", // Placeholder
+            "Bride to be": "ring_volume", // Placeholder
+            "Groom to be": "tie", // Placeholder
+            "Welcome baby boy": "male",
+            "Welcome baby girl": "female",
+            "Balloon ring decoration": "circle",
+            "Sequence balloon decoration": "flare", // Placeholder
+            "Matka Fogg service": "cloud", // Placeholder
+            "Cold Pyro service": "local_fire_department", // Placeholder
+            "Flower decoration": "local_florist",
+            "Car decoration": "directions_car",
+            "Bouquet balloon decoratio": "balloon",
+            "Haldi decoration": "spa", // Placeholder
+            "Mehndi decoration": "gesture", // Placeholder
+            "Ring decoration": "circle", // Placeholder
+            "Ring ceremony": "ring_volume", // Placeholder
+            "Surprise decoration": "redeem",
+            "Magic show": "magic_button",
+            "Engagement": "ring_volume",
+            "School events": "school",
+            "Arches decoration": "architecture", // Placeholder
+            "Balloon backdrop decoration": "photo_camera_back", // Placeholder
+            "Balloon light and special effects": "lightbulb",
+            "Flex printing decoration": "print",
+            "Balloon printing and branding": "brush",
+            "Christmas decoration": "forest",
+            "Balloon twisting and entertainment": "attractions",
+            "Decoration service": "construction",
+            "Event planner": "edit_calendar",
+            "Event planning": "event",
+            "Fabric decoration": "styler", // Placeholder
+            "Hotel room decoration": "hotel",
+            "Light decoration": "tungsten",
+            "Marriage and mehndi decoration": "favorite", // Generic
+            "New year decoration": "celebration",
+            "New year evining decoration": "nightlife",
+            "Farewell decoration": "waving_hand",
+            "Cocomelon decoration": "smart_display", // Placeholder
+            "Tom & jerry decoration": "pets", // Placeholder
+            "Surprise birthday decoration": "cake",
+            "Sweet 16 decoration": "cake",
+            "Traditional balloon decoration": "balloon",
+            "Traditional Engagement Decoration": "ring_volume",
+            "Traditional ring ceremony decoration": "ring_volume",
+            "OYO ROOMS DECORATION": "hotel", // Generic hotel
+            "Holidayin decoration": "beach_access", // Placeholder
+            "Indipendence day decoration": "flag",
+            "Republic day decoration": "flag",
+            "Office decoration": "work",
+            "Office balloon decoration": "work",
+            "Outdoor balloon decoration": "deck",
+            "Children party planner": "child_care",
+            "Candle light dinner": "restaurant", // Placeholder
+            "Customize decoration": "tune",
+            "Festival decoration": "festival",
+            "First night decoration": "bed", // Placeholder
+            "Helium balloon decoration": "air",
+            "HomeEvent's": "home",
+            "Kids balloon decoration": "child_care",
+            "Kids celebration": "child_care",
+            "Kids birthday party": "cake",
+            "Parties and events": "celebration",
+            "Special occasion": "star",
+            "Velentine celebration": "favorite",
+            "Stage Decoration": "theaters",
+            "Balloon decoration in delhi": "location_city", // Generic location
+            "Balloon decoration in Noida": "location_city",
+            "Balloon decoration in gurgaon": "location_city",
+            "Balloon decoration near me": "near_me",
+            "Balloon blast": "scatter_plot", // Placeholder
+            "Magician": "magic_button",
+            "Tattoo artist": "brush", // Placeholder
+            "Car entry": "directions_car",
+            "Moscots": "smart_toy", // Placeholder
+            "Fog Entry": "cloud",
+            "Payro Entry": "local_fire_department",
+            "Mirror Entry": "mirror", // No direct icon, using placeholder
+            "Ston eArt": "interests", // Placeholder
+            "Music live band": "music_note",
+            "Face painting": "face",
+            "Anchor": "mic",
+            "Live show anchor": "mic",
+            "Puppet show": "smart_toy",
+            "Long man": "man", // Placeholder
+            "Mascot": "smart_toy",
+            "Game cordinator": "sports_esports",
+            "Joker artist": "sentiment_very_satisfied" // Placeholder
+        };
+        const defaultIcon = 'celebration'; // Default icon if not found
+
+
+        const servicesList = Object.keys(serviceIconMap); // Use keys from the map as the list
+        
+        const carouselTrack1 = document.getElementById('carousel-track-1');
+        const carouselTrack2 = document.getElementById('carousel-track-2');
+        const prevButton = document.getElementById('prev-service');
+        const nextButton = document.getElementById('next-service');
+        
+        let currentIndex = 0;
+        let itemsPerViewDesktop = 6; 
+        let itemsPerViewMobile = 1; 
+        let totalItems = servicesList.length;
+        let itemsPerRow = Math.ceil(totalItems / 2); 
+
+        // --- Populate Both Carousels ---
+        function populateCarousels() {
+             carouselTrack1.innerHTML = ''; 
+             carouselTrack2.innerHTML = '';
+             itemsPerRow = Math.ceil(servicesList.length / 2); 
+
+             servicesList.forEach((service, index) => {
+                const card = document.createElement('div');
+                card.className = 'carousel-item bg-card-light dark:bg-card-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-4 text-center aspect-square flex flex-col items-center justify-center'; 
+                 // --- Use Icon from Map ---
+                 const iconName = serviceIconMap[service] || defaultIcon;
+                card.innerHTML = `
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-gold/10 mb-3">
+                         <span class="material-symbols-outlined text-accent-gold">${iconName}</span> 
+                    </div>
+                    <h5 class="text-text-light dark:text-text-dark text-sm font-semibold mb-1 font-body leading-tight">${service}</h5>
+                    <p class="text-xs font-normal leading-snug text-subtle-text-light dark:text-subtle-text-dark font-body">Description placeholder</p> 
+                `;
+                if (index < itemsPerRow) {
+                    carouselTrack1.appendChild(card);
+                } else {
+                    carouselTrack2.appendChild(card);
+                }
+            });
+            setTimeout(updateCarousel, 50); 
+        }
+
+       // --- Update Carousel Position ---
+       function updateCarousel() {
+            const carouselItems1 = carouselTrack1.querySelectorAll('.carousel-item');
+            if (!carouselItems1 || carouselItems1.length === 0) return; 
+
+            const itemWidth = carouselItems1[0].offsetWidth; 
+            const gap = 16; 
+            const totalWidthPerItem = itemWidth + gap;
+            
+            const viewportWidth = document.getElementById('carousel-viewport').offsetWidth;
+            
+            let currentItemsPerView;
+            if (window.innerWidth >= 1024) { 
+                 currentItemsPerView = itemsPerViewDesktop;
+            } else if (window.innerWidth >= 768) { 
+                 currentItemsPerView = 3;
+            } else if (window.innerWidth >= 640) { 
+                 currentItemsPerView = 2;
+            } else { 
+                 currentItemsPerView = itemsPerViewMobile;
+            }
+             
+            const itemsToSlide = 1; 
+
+            // Calculate max index based on the number of actual items in a row
+            // Ensure this reflects the actual number of items generated in track 1
+             const actualItemsInRow1 = carouselTrack1.children.length; 
+            const maxIndex = Math.max(0, actualItemsInRow1 - currentItemsPerView); 
+            
+            currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+
+            // Calculate the translation value based on the current index and item width + gap
+            // Need to adjust slightly when using margin-right on mobile
+             let translateValue = -currentIndex * totalWidthPerItem;
+             if (window.innerWidth < 640) { // Mobile adjustment if margin-right is used
+                 translateValue = -currentIndex * (itemWidth + gap); // Use itemWidth + gap from CSS
+             }
+
+
+            requestAnimationFrame(() => {
+                carouselTrack1.style.transform = `translateX(${translateValue}px)`;
+                carouselTrack2.style.transform = `translateX(${translateValue}px)`; 
+            });
+
+
+            prevButton.disabled = currentIndex === 0;
+            // Check against the actual number of items in the first row
+            nextButton.disabled = currentIndex >= maxIndex; 
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', () => {
+             const itemsToSlide = 1; 
+             const actualItemsInRow1 = carouselTrack1.children.length;
+
+             let currentItemsPerView;
+             if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktop;
+             else if (window.innerWidth >= 768) currentItemsPerView = 3;
+             else if (window.innerWidth >= 640) currentItemsPerView = 2;
+             else currentItemsPerView = itemsPerViewMobile;
+             const maxIndex = Math.max(0, actualItemsInRow1 - currentItemsPerView);
+
+            currentIndex = Math.min(currentIndex + itemsToSlide, maxIndex); 
+            updateCarousel();
+        });
+
+        prevButton.addEventListener('click', () => {
+              const itemsToSlide = 1;
+             currentIndex = Math.max(0, currentIndex - itemsToSlide); 
+             updateCarousel();
+        });
+
+        // --- Initial setup & Resize ---
+        populateCarousels(); 
+        window.addEventListener('resize', () => {
+             setTimeout(updateCarousel, 150); 
+        }); 
+
     });
   </script>
 </body>
