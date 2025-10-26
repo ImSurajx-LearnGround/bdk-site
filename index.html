@@ -142,13 +142,14 @@
       transform: scale(1.1);
     }
 
-    /* Carousel Styles */
+    /* START SECTION: Carousel Styles (FIXED VERSION) */
     #carousel-track-1,
     #carousel-track-2,
     #testimonial-carousel-track {
       transition: transform 0.5s ease-in-out;
     }
 
+    /* Base styles for all carousel items */
     .carousel-item,
     .testimonial-item {
       flex-shrink: 0;
@@ -157,24 +158,40 @@
       margin-right: 1rem;
     }
 
+    /* FIX: Testimonial Item Guaranteed Constant Height */
+    .testimonial-item {
+      height: 220px; /* FIXED HEIGHT */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Prevents card from expanding due to content */
+    }
+
+    /* FIX: Truncate long testimonial text gracefully */
+    .testimonial-item .flex-grow {
+        /* This targets the review text inside the card */
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Limit comment to 4 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     #carousel-viewport,
     #testimonial-carousel-viewport {
       overflow-x: hidden;
     }
 
     @media (min-width: 640px) {
-
       /* sm */
       .carousel-item,
       .testimonial-item {
+        /* Only adjusts width; height is inherited from the .testimonial-item rule above */
         width: calc((100% / 2) - (1rem * 1 / 2));
-        /* 2 items visible */
         margin-right: 0;
       }
     }
 
     @media (min-width: 768px) {
-
       /* md */
       .carousel-item {
         width: calc((100% / 3) - (1rem * 2 / 3));
@@ -188,7 +205,6 @@
     }
 
     @media (min-width: 1024px) {
-
       /* lg */
       .carousel-item {
         width: calc((100% / 6) - (1rem * 5 / 6));
@@ -200,7 +216,7 @@
         /* 3 items for testimonials */
       }
     }
-
+    
     .carousel-button {
       background-color: rgba(255, 255, 255, 0.7);
       border-radius: 50%;
@@ -228,6 +244,8 @@
     .carousel-button .material-symbols-outlined {
       font-size: 1.5rem;
     }
+    /* END SECTION: Carousel Styles (FIXED VERSION) */
+
 
     /* About cards height */
     #about .grid>div {
@@ -252,6 +270,20 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+
+  <!-- Lightbox (Fix: This structure was missing, causing gallery links to fail) -->
+  <div id="lightbox"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 hidden">
+      <div class="relative max-w-5xl max-h-[90vh]">
+          <img id="lightbox-img" src="" alt="Enlarged gallery image"
+              class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
+          <button onclick="closeLightbox()"
+              class="absolute top-4 right-4 text-white hover:text-primary transition-colors bg-black/50 p-2 rounded-full">
+              <span class="material-symbols-outlined">close</span>
+          </button>
+      </div>
+  </div>
+
 
   <!-- Main Content Wrapper -->
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
@@ -625,7 +657,7 @@
               class="font-display text-[32px] font-bold leading-tight tracking-tight text-text-light dark:text-text-dark md:text-4xl">
               Let's Plan Your Dream Event</h1>
           </div>
-          <!-- Updated Form with Gemini Feature -->
+          <!-- Updated Form -->
           <form class="mt-8 flex flex-col gap-4">
             <label class="flex flex-col">
               <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark font-body">Full
@@ -1034,7 +1066,7 @@
         });
       });
 
-      // --- Service Carousel Logic ---
+      // --- Service Carousel Logic (FIXED SCROLL) ---
       const serviceIconMap = {
         "Corporate and conference": "business_center", "Anniversary party planning": "cake",
         "Baby shower planning": "child_friendly", "Bar and bat mitzvah planning": "star",
@@ -1176,13 +1208,16 @@
       }
 
       nextServiceButton.addEventListener('click', () => {
-        const itemsToSlide = 1;
-        const actualItemsInRow1 = carouselTrack1.children.length;
+        // FIX: Calculate items to slide based on visible cards
         let currentItemsPerView;
         if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopService;
         else if (window.innerWidth >= 768) currentItemsPerView = 3;
         else if (window.innerWidth >= 640) currentItemsPerView = 2;
         else currentItemsPerView = itemsPerViewMobileService;
+
+        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
+        
+        const actualItemsInRow1 = carouselTrack1.children.length;
         const maxIndex = Math.max(0, actualItemsInRow1 - currentItemsPerView);
 
         currentServiceIndex = Math.min(currentServiceIndex + itemsToSlide, maxIndex);
@@ -1190,7 +1225,15 @@
       });
 
       prevServiceButton.addEventListener('click', () => {
-        const itemsToSlide = 1;
+        // FIX: Calculate items to slide based on visible cards
+        let currentItemsPerView;
+        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopService;
+        else if (window.innerWidth >= 768) currentItemsPerView = 3;
+        else if (window.innerWidth >= 640) currentItemsPerView = 2;
+        else currentItemsPerView = itemsPerViewMobileService;
+
+        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
+        
         currentServiceIndex = Math.max(0, currentServiceIndex - itemsToSlide);
         updateServiceCarousel();
       });
@@ -1200,7 +1243,7 @@
         setTimeout(updateServiceCarousel, 150);
       });
 
-      // --- Testimonial Carousel Logic (Re-added) ---
+      // --- Testimonial Carousel Logic (FIXED SCROLL) ---
       const testimonials = [
         { name: "Aakansha S.", time: "3 months ago", rating: 5, comment: "Made my day memorable", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXEKYcJnl3nHjibNi-OFPLWgzMJiLKChrsxagd2D-vw7aB_mZU4=s120-c-rp-mo-br100" },
         { name: "Anshu S.", time: "4 months ago", rating: 5, comment: "One of the best balloon decorators at a very reasonable price in Delhi . It's been 3 years since I have contacted him for any kind of decoration at my place. They not only decorate the way you want...", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXtuWTpuPJn1UgnsKbq2lKUMMAaN6svV5t_o8j8ACJWU5S1mG8h=s120-c-rp-mo-br100" },
@@ -1226,7 +1269,8 @@
         testimonialTrack.innerHTML = ''; // Clear existing
         testimonials.forEach(testimonial => {
           const card = document.createElement('div');
-          card.className = 'testimonial-item bg-card-light dark:bg-card-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-6 animate-on-scroll h-full flex flex-col';
+          // FIX: Removed conflicting 'h-full' class. This class prevented the CSS 'height: 220px' rule from working.
+          card.className = 'testimonial-item bg-card-light dark:bg-card-dark rounded-xl shadow-md border border-border-light dark:border-border-dark p-6 animate-on-scroll flex flex-col';
           let stars = '';
           for (let i = 0; i < 5; i++) {
             stars += `<span class="material-symbols-outlined text-base ${i < testimonial.rating ? 'text-accent' : 'text-gray-300'}">star</span>`;
@@ -1242,6 +1286,7 @@
                         </div>
                         <div class="ml-auto flex">${stars}</div>
                     </div>
+                    <!-- The 'flex-grow' class, when combined with the CSS truncation rules, ensures text stays within the fixed height -->
                     <p class="text-subtle-text-light dark:text-subtle-text-dark italic font-body text-sm flex-grow">${shortComment}</p> 
                 `;
           testimonialTrack.appendChild(card);
@@ -1286,11 +1331,13 @@
       }
 
       nextTestimonialButton.addEventListener('click', () => {
-        const itemsToSlide = 1;
+        // FIX: Calculate items to slide based on visible cards
         let currentItemsPerView;
         if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopTestimonial;
         else if (window.innerWidth >= 768) currentItemsPerView = 2;
         else currentItemsPerView = itemsPerViewMobileTestimonial;
+
+        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
         const maxIndex = Math.max(0, testimonials.length - currentItemsPerView);
 
         currentTestimonialIndex = Math.min(currentTestimonialIndex + itemsToSlide, maxIndex);
@@ -1298,7 +1345,14 @@
       });
 
       prevTestimonialButton.addEventListener('click', () => {
-        const itemsToSlide = 1;
+        // FIX: Calculate items to slide based on visible cards
+        let currentItemsPerView;
+        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopTestimonial;
+        else if (window.innerWidth >= 768) currentItemsPerView = 2;
+        else currentItemsPerView = itemsPerViewMobileTestimonial;
+
+        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
+        
         currentTestimonialIndex = Math.max(0, currentTestimonialIndex - itemsToSlide);
         updateTestimonialCarousel();
       });
