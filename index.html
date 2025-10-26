@@ -186,19 +186,9 @@
 
     /* DEBUG: Changed styles for Services carousel */
     #testimonial-carousel-viewport {
-      /* DEBUG: Changed from hidden to auto */
+      /* DEBUG: Changed back to auto for native scrolling */
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      /* Hide scrollbar */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-    }
-    #testimonial-carousel-viewport::-webkit-scrollbar {
-      display: none;
-    }
-    /* END DEBUG */
-    #carousel-viewport {
-      overflow-x: auto;
+      /* DEBUG: Added snap-type */
       scroll-snap-type: x mandatory;
       /* Hide scrollbar */
       -ms-overflow-style: none;  /* IE and Edge */
@@ -220,16 +210,17 @@
         margin-right: 0;
       }
       /* DEBUG: Add snap align to service items */
-      .carousel-item {
-        scroll-snap-align: start;
-      }
-      /* DEBUG: Add snap align to testimonial items */
-      .testimonial-item {
-        scroll-snap-align: start;
-      }
+    .carousel-item {
+      scroll-snap-align: start;
     }
+    /* DEBUG: Add snap align to testimonial items */
+    .testimonial-item {
+      /* DEBUG: Added snap-align */
+      scroll-snap-align: start;
+    }
+  }
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
 
       /* md */
       .carousel-item {
@@ -238,11 +229,11 @@
       }
 
       .testimonial-item {
-        width: calc((100% / 2) - (1rem * 1 / 2));
-        /* 2 items for testimonials */
-        scroll-snap-align: start; /* DEBUG: Add snap align */
-      }
-      /* DEBUG: Add snap align to service items */
+      width: calc((100% / 2) - (1rem * 1 / 2));
+      /* 2 items for testimonials */
+      scroll-snap-align: start; /* DEBUG: Added snap-align */
+    }
+    /* DEBUG: Add snap align to service items */
       .carousel-item {
         scroll-snap-align: start;
       }
@@ -257,11 +248,11 @@
       }
 
       .testimonial-item {
-        width: calc((100% / 3) - (1rem * 2 / 3));
-        /* 3 items for testimonials */
-        scroll-snap-align: start; /* DEBUG: Add snap align */
-      }
-      /* DEBUG: Add snap align to service items */
+      width: calc((100% / 3) - (1rem * 2 / 3));
+      /* 3 items for testimonials */
+      scroll-snap-align: start; /* DEBUG: Added snap-align */
+    }
+    /* DEBUG: Add snap align to service items */
       .carousel-item {
         scroll-snap-align: start;
       }
@@ -318,6 +309,23 @@
       /* Move to original position */
     }
     
+    /* DEBUG: Removed marquee animation */
+    /*
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); } 
+    }
+
+    #testimonial-carousel-track {
+      animation: marquee 65s linear infinite;
+    }
+
+    #testimonial-carousel-viewport:hover #testimonial-carousel-track {
+      animation-play-state: paused;
+    }
+    */
+    /* END DEBUG */
+
     /* DEBUG FIX: Lightbox spinner */
     .lightbox-spinner {
       width: 48px;
@@ -664,8 +672,9 @@
               <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
             </button>
             -->
-            <!-- DEBUG: Removed mx-4 lg:mx-6 for full-width scroll -->
-            <div id="testimonial-carousel-viewport" class="overflow-hidden">
+            
+            <!-- DEBUG: Removed mx-4 lg:mx-6 and added it back, as it's for native scroll padding -->
+            <div id="testimonial-carousel-viewport" class="overflow-hidden mx-4 lg:mx-6">
               <div id="testimonial-carousel-track" class="flex gap-4">
                 <!-- Testimonial cards dynamically added -->
               </div>
@@ -1410,13 +1419,19 @@
       const testimonials = [
         { name: "Aakansha S.", time: "3 months ago", rating: 5, comment: "Made my day memorable", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXEKYcJnl3nHjibNi-OFPLWgzMJiLKChrsxagd2D-vw7aB_mZU4=s120-c-rp-mo-br100" },
         { name: "Anshu S.", time: "4 months ago", rating: 5, comment: "One of the best balloon decorators at a very reasonable price in Delhi . It's been 3 years since I have contacted him for any kind of decoration at my place. They not only decorate the way you want...", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXtuWTpuPJn1UgnsKbq2lKUMMAaN6svV5t_o8j8ACJWU5S1mG8h=s120-c-rp-mo-br100" },
+        // DEBUG: Added review with no avatar
+        { name: "Priya M.", time: "4 months ago", rating: 4, comment: "The team was very professional and the setup looked beautiful. Would recommend for corporate events.", avatar: null },
         { name: "Deepak S.", time: "5 months ago", rating: 5, comment: "Good work", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXfHhB_DR4-z_P30lsFfHKlFPmni0ZHS28dUc7NkQlyflSwtzYo=s120-c-rp-mo-br100" },
         { name: "Ashi A.", time: "6 months ago", rating: 5, comment: "Amezing work.", avatar: "https://lh3.googleusercontent.com/a/ACg8ocLnyY15jGipAhexlkSfY6G7G_-A_8cu9G00M4TYgE2KXlar2Q=s120-c-rp-mo-br100" },
         { name: "Dheeraj S.", time: "7 months ago", rating: 5, comment: "It was magnificent :)", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjWX4ZuLLUrpA21IHOZc2g3tMWLv2SNdhzpBXpoSxJKhPQVxV9mO=s120-c-rp-mo-br100" },
+        // DEBUG: Added review with no avatar
+        { name: "Rohan K.", time: "8 months ago", rating: 5, comment: "Fantastic execution for my son's birthday party. The 'Jungle Book' theme was a huge hit with all the kids. Highly impressed!", avatar: null },
         { name: "Sumit K.", time: "8 months ago", rating: 5, comment: "It was a wonderful decor. The way I wanted it to be, It was the exact way and impressed me to book for more occasions too..", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjWMk11TqnXKuZnHKCNj64h4yiEtzozup3xxSOxeKmMjtAPadD2k=s120-c-rp-mo-br100" },
         { name: "vikash K.", time: "9 months ago", rating: 5, comment: "Very good behaviour very cooperative", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjV2CffiTR5R0cG-zwkT5pWeM5HATmnl96IYMgGbISPTj_BMrdkRgA=s120-c-rp-mo-br100" },
         { name: "GSS-MK D.", time: "9 months ago", rating: 5, comment: "Excellent work", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjUu1S3KcnAGKhgBWVYCRDgFMunlBbJmtUVxEWbAPx8QobbxM3Ym=s120-c-rp-mo-br100" },
         { name: "Kirti C.", time: "10 months ago", rating: 5, comment: "Done fantastic job", avatar: "https://lh3.googleusercontent.com/a/ACg8ocL-4XhbJ_SGgQAzH9yyKHja9CyE3SKGyiif5xNR8_Tt-rX24A=s120-c-rp-mo-br100" },
+        // DEBUG: Added review with no avatar
+        { name: "Sameer T.", time: "11 months ago", rating: 4, comment: "Good service, but felt it was slightly overpriced. The quality was top-notch, though.", avatar: null },
         { name: "Ankit K.", time: "1 year ago", rating: 5, comment: "Good decoration", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjVGvPAdqpgCmDSgP0N-bwTT2GiUZQPOYAd8QydMToH71V0j0ZtE=s120-c-rp-mo-br100" },
       ];
 
@@ -1435,6 +1450,13 @@
       function populateTestimonialCarousel() {
         if (!testimonialTrack) return; // Guard clause
         testimonialTrack.innerHTML = ''; // Clear existing
+        
+        // DEBUG: Create a fragment to hold all cards (original + clones)
+        const fragment = document.createDocumentFragment();
+        
+        // First, create all the original cards
+        const originalCards = [];
+        
         testimonials.forEach(testimonial => {
           const card = document.createElement('div');
           // FIX: Removed conflicting 'h-full' class. This class prevented the CSS 'height: 220px' rule from working.
@@ -1445,9 +1467,24 @@
           }
           const shortComment = testimonial.comment.length > 150 ? testimonial.comment.substring(0, 147) + "..." : testimonial.comment;
 
+          // DEBUG: Added logic for avatar fallback
+          let avatarHtml = '';
+          if (testimonial.avatar) {
+            avatarHtml = `<img class="h-12 w-12 rounded-full mr-4 object-cover" src="${testimonial.avatar}" alt="${testimonial.name} avatar">`;
+          } else {
+            // Fallback icon if no avatar is provided
+            avatarHtml = `
+              <div class="flex items-center justify-center h-12 w-12 rounded-full mr-4 bg-gray-200 dark:bg-card-dark border border-border-light dark:border-border-dark">
+                <span class="material-symbols-outlined text-subtle-text-light dark:text-subtle-text-dark text-3xl">
+                  account_circle
+                </span>
+              </div>
+            `;
+          }
+
           card.innerHTML = `
                     <div class="flex items-center mb-4">
-                        <img class="h-12 w-12 rounded-full mr-4 object-cover" src="${testimonial.avatar}" alt="${testimonial.name} avatar">
+                        ${avatarHtml} <!-- DEBUG: Used avatarHtml variable -->
                         <div>
                             <p class="font-semibold text-text-light dark:text-text-dark font-body">${testimonial.name}</p>
                             <p class="text-sm text-subtle-text-light dark:text-subtle-text-dark font-body">${testimonial.time}</p>
@@ -1457,11 +1494,25 @@
                     <!-- The 'flex-grow' class, when combined with the CSS truncation rules, ensures text stays within the fixed height -->
                     <p class="text-subtle-text-light dark:text-subtle-text-dark italic font-body text-sm flex-grow">${shortComment}</p> 
                 `;
-          testimonialTrack.appendChild(card);
+          // Add to fragment AND to our original cards array
+          fragment.appendChild(card);
+          originalCards.push(card);
         });
+        
+        // DEBUG: Clone all original cards 3 times to create the "infinite" loop
+        for (let i = 0; i < 3; i++) {
+          originalCards.forEach(card => {
+            fragment.appendChild(card.cloneNode(true));
+          });
+        }
+        
+        // Append the entire fragment (originals + clones) to the DOM at once
+        testimonialTrack.appendChild(fragment);
+        
         testimonialTrack.querySelectorAll('.animate-on-scroll').forEach((el) => {
           animationObserver.observe(el);
         });
+        
         // DEBUG: Removed call to updateTestimonialCarousel
         // setTimeout(updateTestimonialCarousel, 50);
       }
@@ -1469,66 +1520,18 @@
       // DEBUG: Removed updateTestimonialCarousel function
       /*
       function updateTestimonialCarousel() {
-        const testimonialItems = testimonialTrack.querySelectorAll('.testimonial-item');
-        if (!testimonialItems || testimonialItems.length === 0) return;
-
-        const itemWidth = testimonialItems[0].offsetWidth;
-        const gap = 16;
-        const totalWidthPerItem = itemWidth + gap;
-        const viewportWidth = document.getElementById('testimonial-carousel-viewport').offsetWidth;
-
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopTestimonial;
-        else if (window.innerWidth >= 768) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileTestimonial;
-
-        const itemsToSlide = 1;
-        const maxIndex = Math.max(0, testimonials.length - currentItemsPerView);
-        currentTestimonialIndex = Math.max(0, Math.min(currentTestimonialIndex, maxIndex));
-
-        let translateValue = -currentTestimonialIndex * totalWidthPerItem;
-        if (window.innerWidth < 640) {
-          translateValue = -currentTestimonialIndex * (itemWidth + gap);
-        } else {
-          translateValue = -currentTestimonialIndex * totalWidthPerItem;
-        }
-
-        requestAnimationFrame(() => {
-          testimonialTrack.style.transform = `translateX(${translateValue}px)`;
-        });
-
-        prevTestimonialButton.disabled = currentTestimonialIndex === 0;
-        nextTestimonialButton.disabled = currentTestimonialIndex >= maxIndex;
+        ...
       }
       */
 
       // DEBUG: Removed testimonial button listeners
       /*
       nextTestimonialButton.addEventListener('click', () => {
-        // FIX: Calculate items to slide based on visible cards
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopTestimonial;
-        else if (window.innerWidth >= 768) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileTestimonial;
-
-        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
-        const maxIndex = Math.max(0, testimonials.length - currentItemsPerView);
-
-        currentTestimonialIndex = Math.min(currentTestimonialIndex + itemsToSlide, maxIndex);
-        updateTestimonialCarousel();
+        ...
       });
 
       prevTestimonialButton.addEventListener('click', () => {
-        // FIX: Calculate items to slide based on visible cards
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopTestimonial;
-        else if (window.innerWidth >= 768) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileTestimonial;
-
-        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
-
-        currentTestimonialIndex = Math.max(0, currentTestimonialIndex - itemsToSlide);
-        updateTestimonialCarousel();
+        ...
       });
       */
 
@@ -1585,6 +1588,10 @@
 </body>
 
 </html>
+
+
+
+
 
 
 
