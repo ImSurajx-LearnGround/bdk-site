@@ -179,9 +179,37 @@
       text-overflow: ellipsis;
     }
 
+    /* FIX: Removed overflow-x: hidden from #carousel-viewport 
+      to allow new track-based scrolling to work.
+    */
     #carousel-viewport,
     #testimonial-carousel-viewport {
       overflow-x: hidden;
+    }
+
+    /* FIX: Make service carousel tracks independently scrollable */
+    #carousel-track-1,
+    #carousel-track-2 {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* Hide scrollbar */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      /* Add padding to the right so the last item can snap to start */
+      padding-bottom: 1rem; /* Space for scrollbar if it appears */
+    }
+
+    #carousel-track-1::-webkit-scrollbar,
+    #carousel-track-2::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* FIX: Ensure all carousel items snap to start */
+    .carousel-item,
+    .testimonial-item {
+      scroll-snap-align: start;
     }
 
     /* DEBUG: Changed styles for Services carousel */
@@ -191,10 +219,15 @@
       /* DEBUG: Added snap-type */
       scroll-snap-type: x mandatory;
       /* Hide scrollbar */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
     }
-    #carousel-viewport::-webkit-scrollbar {
+
+    /* Hide scrollbars for viewports */
+    #carousel-viewport::-webkit-scrollbar,
+    #testimonial-carousel-viewport::-webkit-scrollbar {
       display: none;
     }
     /* END DEBUG */
@@ -209,18 +242,12 @@
         width: calc((100% / 2) - (1rem * 1 / 2));
         margin-right: 0;
       }
-      /* DEBUG: Add snap align to service items */
-    .carousel-item {
-      scroll-snap-align: start;
+      /* FIX: Removed duplicated scroll-snap-align.
+        It's now in the base styles above.
+      */
     }
-    /* DEBUG: Add snap align to testimonial items */
-    .testimonial-item {
-      /* DEBUG: Added snap-align */
-      scroll-snap-align: start;
-    }
-  }
 
-  @media (min-width: 768px) {
+    @media (min-width: 768px) {
 
       /* md */
       .carousel-item {
@@ -229,14 +256,12 @@
       }
 
       .testimonial-item {
-      width: calc((100% / 2) - (1rem * 1 / 2));
-      /* 2 items for testimonials */
-      scroll-snap-align: start; /* DEBUG: Added snap-align */
-    }
-    /* DEBUG: Add snap align to service items */
-      .carousel-item {
-        scroll-snap-align: start;
+        width: calc((100% / 2) - (1rem * 1 / 2));
+        /* 2 items for testimonials */
       }
+      /* FIX: Removed duplicated scroll-snap-align.
+        It's now in the base styles above.
+      */
     }
 
     @media (min-width: 1024px) {
@@ -248,14 +273,12 @@
       }
 
       .testimonial-item {
-      width: calc((100% / 3) - (1rem * 2 / 3));
-      /* 3 items for testimonials */
-      scroll-snap-align: start; /* DEBUG: Added snap-align */
-    }
-    /* DEBUG: Add snap align to service items */
-      .carousel-item {
-        scroll-snap-align: start;
+        width: calc((100% / 3) - (1rem * 2 / 3));
+        /* 3 items for testimonials */
       }
+      /* FIX: Removed duplicated scroll-snap-align.
+        It's now in the base styles above.
+      */
     }
 
     .carousel-button {
@@ -308,7 +331,7 @@
       transform: translateY(0);
       /* Move to original position */
     }
-    
+
     /* DEBUG: Removed marquee animation */
     /*
     @keyframes marquee {
@@ -332,7 +355,8 @@
       height: 48px;
       border: 5px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      border-top-color: #C5A352; /* Primary color */
+      border-top-color: #C5A352;
+      /* Primary color */
       animation: spin 1s ease-in-out infinite;
       position: absolute;
       left: 50%;
@@ -521,7 +545,10 @@
             <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
           </button>
           -->
-          <!-- DEBUG: Removed mx-8 lg:mx-10 for full-width scroll -->
+          <!-- 
+            FIX: The #carousel-viewport now just acts as a container.
+            The scrolling overflow is handled by the tracks inside.
+          -->
           <div id="carousel-viewport" class="overflow-hidden">
             <div id="carousel-track-1" class="flex gap-4 mb-4">
               <!-- Service cards (row 1) dynamically added -->
@@ -672,7 +699,7 @@
               <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
             </button>
             -->
-            
+
             <!-- DEBUG: Removed mx-4 lg:mx-6 and added it back, as it's for native scroll padding -->
             <div id="testimonial-carousel-viewport" class="overflow-hidden mx-4 lg:mx-6">
               <div id="testimonial-carousel-track" class="flex gap-4">
@@ -762,11 +789,13 @@
         </div>
         <div class="w-full flex-1 py-8 lg:order-1 lg:py-12">
           <div class="flex flex-col gap-2">
+            <!-- ADDED Progress bar back, set to full width -->
             <div class="flex items-center gap-4">
               <div class="h-0.5 flex-1 rounded-full bg-text-light/10 dark:bg-text-dark/20">
-                <div class="h-full w-1/4 rounded-full bg-primary"></div>
+                <!-- Set to w-full to be 100% full -->
+                <div class="h-full w-full rounded-full bg-primary"></div>
               </div>
-              <span class="text-sm font-medium text-text-light/70 dark:text-text-dark/70 font-body">Step 1 of 4</span>
+              <!-- The "Step 1 of 4" text remains removed as requested -->
             </div>
             <h1
               class="font-display text-[32px] font-bold leading-tight tracking-tight text-text-light dark:text-text-dark md:text-4xl">
@@ -785,20 +814,10 @@
             <label class="flex flex-col">
               <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark font-body">Event
                 Type</p>
-              <div class="relative">
-                <!-- Added ID to select -->
-                <select id="event-type-select"
-                  class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 pr-10 text-base font-normal leading-normal text-text-light focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark font-body">
-                  <option>Birthday</option>
-                  <option>Baby Shower</option>
-                  <option>Anniversary</option>
-                  <option>Corporate Event</option>
-                  <option>Wedding Function (Haldi, Mehndi)</option>
-                  <option>Customized Event</option>
-                </select>
-                <span
-                  class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-text-light dark:text-text-dark">expand_more</span>
-              </div>
+              <!-- Replaced select dropdown with a text input field -->
+              <input id="event-type-input"
+                class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50 font-body"
+                placeholder="e.g., Birthday, Baby Shower" type="text" />
             </label>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -840,7 +859,8 @@
               within 24 hours.</p>
           </form>
           <!-- DEBUG FIX: Added success message -->
-          <div id="booking-success" class="hidden mt-8 p-4 rounded-lg bg-green-100 text-green-800 border border-green-200 dark:bg-green-900 dark:text-green-100 dark:border-green-700 font-body text-center">
+          <div id="booking-success"
+            class="hidden mt-8 p-4 rounded-lg bg-green-100 text-green-800 border border-green-200 dark:bg-green-900 dark:text-green-100 dark:border-green-700 font-body text-center">
             <h4 class="font-bold">Thank you!</h4>
             <p>Your request has been sent. We'll be in touch soon.</p>
           </div>
@@ -869,8 +889,9 @@
       </div>
 
       <div class="flex flex-col p-4 pt-0 max-w-2xl mx-auto">
-         <!-- DEBUG FIX: Added class="faq-item" -->
-        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group faq-item" open="">
+        <!-- DEBUG FIX: Added class="faq-item" -->
+        <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group faq-item"
+          open="">
           <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
             <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-body">What types
               of events do you decorate?</p>
@@ -884,7 +905,7 @@
             celebrations, and corporate gatherings. We also offer fully customized décor experiences tailored to your
             unique vision.</p>
         </details>
-         <!-- DEBUG FIX: Added class="faq-item" -->
+        <!-- DEBUG FIX: Added class="faq-item" -->
         <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group faq-item">
           <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
             <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-body">How does the
@@ -898,7 +919,7 @@
             Our booking process is simple. Start with an initial consultation to discuss your vision, receive a
             customized proposal, and then secure your date with a deposit. We handle all the details from there!</p>
         </details>
-         <!-- DEBUG FIX: Added class="faq-item" -->
+        <!-- DEBUG FIX: Added class="faq-item" -->
         <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group faq-item">
           <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
             <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-body">What are
@@ -912,7 +933,7 @@
             Pricing varies based on the scale and complexity of your event. We offer transparent package pricing and
             custom quotes. We accept various payment methods, with a deposit required to secure your booking.</p>
         </details>
-         <!-- DEBUG FIX: Added class="faq-item" -->
+        <!-- DEBUG FIX: Added class="faq-item" -->
         <details class="flex flex-col border-t border-t-border-light dark:border-t-border-dark py-2 group faq-item">
           <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
             <p class="text-text-light dark:text-text-dark text-base font-semibold leading-normal font-body">Can you
@@ -926,7 +947,7 @@
             Absolutely! Customization is our specialty. Whether you have a specific theme in mind or need help creating
             one, our designers will work with you to bring your dream event to life with unique, personalized decor.</p>
         </details>
-         <!-- DEBUG FIX: Added class="faq-item" -->
+        <!-- DEBUG FIX: Added class="faq-item" -->
         <details
           class="flex flex-col border-t border-t-border-light dark:border-t-border-dark border-b border-b-border-light dark:border-b-border-dark py-2 group faq-item">
           <summary class="flex cursor-pointer items-center justify-between gap-6 py-3 list-none">
@@ -1007,7 +1028,7 @@
                 class="text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors"><svg
                   class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path fill-rule="evenodd"
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.902.218 2.45.42c.586.23 1.02.52 1.484.984c.464.464.754.9.984 1.484c.202.548.368 1.278.42 2.45c.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.218 1.902-.42 2.45c-.23.586-.52 1.02-.984 1.484c-.464.464-.9.754-1.484.984c-.548.202-1.278.368-2.45.42c-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.902-.218-2.45-.42c-.586-.23-1.02-.52-1.484-.984c-.464-.464-.754-.9-.984-1.484c-.202-.548-.368-1.278-.42-2.45c-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.218 1.902.42-2.45c.23-.586.52-1.02.984-1.484c.464.464.9-.754 1.484.984c.548-.202 1.278.368 2.45.42C8.416 2.175 8.796 2.163 12 2.163m0-2.163A14.977 14.977 0 0 0 7.05 0C5.786.052 4.043.21 2.86.66c-1.157.436-1.93 1.002-2.7 1.77C.43 3.156 0 4.14 0 5.4c0 1.258.052 2.99.07 4.85C.012 11.97 0 12.35 0 12s.012.03.07 4.85c.052 1.86.21 3.593.66 4.757c.436 1.157 1.002 1.93 1.77 2.7c.764.766 1.743 1.33 3.002 1.77c1.258.448 2.99.608 4.85.66C10.03 23.988 10.35 24 12 24s1.97.012 4.85-.07c1.86-.052 3.593-.21 4.757-.66c1.157-.436 1.93-1.002 2.7-1.77c.766-.764 1.33-1.743 1.77-3.002c.448-1.258.608-2.99.66-4.85c.058-1.81.07-2.19.07-4.85s-.012-3.04-.07-4.85c-.052-1.86-.21-3.593-.66-4.757c-.436-1.157-1.002-1.93-1.77-2.7c-.764-.766-1.743-1.33-3.002-1.77C19.593.21 17.86.052 16.95 0C15.584.012 15.204 0 12 0Z"
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.172.053 1.902.218 2.45.42c.586.23 1.02.52 1.484.984c.464.464.754.9.984 1.484c.202.548.368 1.278.42 2.45c.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.053 1.172-.218 1.902-.42 2.45c-.23.586-.52 1.02-.984 1.484c-.464.464-.9.754-1.484.984c-.548.202-1.278.368-2.45.42c-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.172-.053-1.902-.218-2.45-.42c-.586-.23-1.02-.52-1.484-.984c-.464-.464-.754-.9-.984-1.484c-.202-.548-.368 1.278-.42-2.45c-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.053-1.172.218 1.902.42-2.45c.23-.586.52-1.02.984-1.484c.464.464.9-.754 1.484.984c.548-.202 1.278.368 2.45.42C8.416 2.175 8.796 2.163 12 2.163m0-2.163A14.977 14.977 0 0 0 7.05 0C5.786.052 4.043.21 2.86.66c-1.157.436-1.93 1.002-2.7 1.77C.43 3.156 0 4.14 0 5.4c0 1.258.052 2.99.07 4.85C.012 11.97 0 12.35 0 12s.012.03.07 4.85c.052 1.86.21 3.593.66 4.757c.436 1.157 1.002 1.93 1.77 2.7c.764.766 1.743 1.33 3.002 1.77c1.258.448 2.99.608 4.85.66C10.03 23.988 10.35 24 12 24s1.97.012 4.85-.07c1.86-.052 3.593-.21 4.757-.66c1.157-.436 1.93-1.002 2.7-1.77c.766-.764 1.33-1.743 1.77-3.002c.448-1.258.608-2.99.66-4.85c.058-1.81.07-2.19.07-4.85s-.012-3.04-.07-4.85c-.052-1.86-.21-3.593-.66-4.757c-.436-1.157-1.002-1.93-1.77-2.7c-.764-.766-1.743-1.33-3.002-1.77C19.593.21 17.86.052 16.95 0C15.584.012 15.204 0 12 0Z"
                     clip-rule="evenodd" />
                   <path
                     d="M12 5.838a6.162 6.162 0 1 0 0 12.324a6.162 6.162 0 0 0 0-12.324M12 16a4 4 0 1 1 0-8a4 4 0 0 1 0 8" />
@@ -1080,7 +1101,7 @@
   <script>
     // DEBUG FIX: Updated lightbox functions to include a loading spinner
     // for a more professional feel, preventing a "broken" look on slow loads.
-    
+
     function openLightbox(element) {
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
@@ -1095,16 +1116,16 @@
       lightboxImg.src = ''; // Clear previous image
 
       // Show image and hide spinner *after* image has loaded
-      lightboxImg.onload = function() {
+      lightboxImg.onload = function () {
         lightboxSpinner.classList.add('hidden');
         lightboxImg.classList.remove('hidden');
       }
-      
-      lightboxImg.onerror = function() {
-          // Handle image load error
-          lightboxSpinner.classList.add('hidden');
-          // For now, just close the lightbox if the image fails
-          closeLightbox();
+
+      lightboxImg.onerror = function () {
+        // Handle image load error
+        lightboxSpinner.classList.add('hidden');
+        // For now, just close the lightbox if the image fails
+        closeLightbox();
       }
 
       // Start loading the image
@@ -1335,75 +1356,18 @@
       // DEBUG: Removed updateServiceCarousel function
       /*
       function updateServiceCarousel() {
-        const serviceItems1 = carouselTrack1.querySelectorAll('.carousel-item');
-        if (!serviceItems1 || serviceItems1.length === 0) return;
-
-        const itemWidth = serviceItems1[0].offsetWidth;
-        const gap = 16;
-        const totalWidthPerItem = itemWidth + gap;
-
-        const viewportWidth = document.getElementById('carousel-viewport').offsetWidth;
-
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopService;
-        else if (window.innerWidth >= 768) currentItemsPerView = 3;
-        else if (window.innerWidth >= 640) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileService;
-
-        const itemsToSlide = 1;
-        const actualItemsInRow1 = carouselTrack1.children.length;
-        const maxIndex = Math.max(0, actualItemsInRow1 - currentItemsPerView);
-
-        currentServiceIndex = Math.max(0, Math.min(currentServiceIndex, maxIndex));
-
-        let translateValue = -currentServiceIndex * totalWidthPerItem;
-        if (window.innerWidth < 640) {
-          translateValue = -currentServiceIndex * (itemWidth + gap);
-        } else {
-          translateValue = -currentServiceIndex * totalWidthPerItem;
-        }
-
-        requestAnimationFrame(() => {
-          carouselTrack1.style.transform = `translateX(${translateValue}px)`;
-          carouselTrack2.style.transform = `translateX(${translateValue}px)`;
-        });
-
-        prevServiceButton.disabled = currentServiceIndex === 0;
-        nextServiceButton.disabled = currentServiceIndex >= maxIndex;
+        ...
       }
       */
 
       // DEBUG: Removed button listeners
       /*
       nextServiceButton.addEventListener('click', () => {
-        // FIX: Calculate items to slide based on visible cards
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopService;
-        else if (window.innerWidth >= 768) currentItemsPerView = 3;
-        else if (window.innerWidth >= 640) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileService;
-
-        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
-
-        const actualItemsInRow1 = carouselTrack1.children.length;
-        const maxIndex = Math.max(0, actualItemsInRow1 - currentItemsPerView);
-
-        currentServiceIndex = Math.min(currentServiceIndex + itemsToSlide, maxIndex);
-        updateServiceCarousel();
+        ...
       });
 
       prevServiceButton.addEventListener('click', () => {
-        // FIX: Calculate items to slide based on visible cards
-        let currentItemsPerView;
-        if (window.innerWidth >= 1024) currentItemsPerView = itemsPerViewDesktopService;
-        else if (window.innerWidth >= 768) currentItemsPerView = 3;
-        else if (window.innerWidth >= 640) currentItemsPerView = 2;
-        else currentItemsPerView = itemsPerViewMobileService;
-
-        const itemsToSlide = currentItemsPerView; // Slide by the number of visible cards
-
-        currentServiceIndex = Math.max(0, currentServiceIndex - itemsToSlide);
-        updateServiceCarousel();
+        ...
       });
       */
 
@@ -1439,7 +1403,7 @@
       // DEBUG: Removed testimonial buttons
       // const prevTestimonialButton = document.getElementById('prev-testimonial');
       // const nextTestimonialButton = document.getElementById('next-testimonial');
-      
+
       // DEBUG: Removed testimonial state logic
       /*
       let currentTestimonialIndex = 0;
@@ -1450,13 +1414,13 @@
       function populateTestimonialCarousel() {
         if (!testimonialTrack) return; // Guard clause
         testimonialTrack.innerHTML = ''; // Clear existing
-        
+
         // DEBUG: Create a fragment to hold all cards (original + clones)
         const fragment = document.createDocumentFragment();
-        
+
         // First, create all the original cards
         const originalCards = [];
-        
+
         testimonials.forEach(testimonial => {
           const card = document.createElement('div');
           // FIX: Removed conflicting 'h-full' class. This class prevented the CSS 'height: 220px' rule from working.
@@ -1498,21 +1462,21 @@
           fragment.appendChild(card);
           originalCards.push(card);
         });
-        
+
         // DEBUG: Clone all original cards 3 times to create the "infinite" loop
         for (let i = 0; i < 3; i++) {
           originalCards.forEach(card => {
             fragment.appendChild(card.cloneNode(true));
           });
         }
-        
+
         // Append the entire fragment (originals + clones) to the DOM at once
         testimonialTrack.appendChild(fragment);
-        
+
         testimonialTrack.querySelectorAll('.animate-on-scroll').forEach((el) => {
           animationObserver.observe(el);
         });
-        
+
         // DEBUG: Removed call to updateTestimonialCarousel
         // setTimeout(updateTestimonialCarousel, 50);
       }
@@ -1542,20 +1506,20 @@
         setTimeout(updateTestimonialCarousel, 150);
       });
       */
-      
-      
+
+
       // --- DEBUG FIX: Booking Form Submission ---
       const bookingForm = document.getElementById('booking-form');
       const bookingSuccess = document.getElementById('booking-success');
       if (bookingForm) {
         bookingForm.addEventListener('submit', function (e) {
           e.preventDefault(); // <-- This is the main bug fix
-          
+
           // In a real app, you'd send data to a server here.
           // For this demo, we'll just hide the form and show the success message.
           bookingForm.classList.add('hidden');
           bookingSuccess.classList.remove('hidden');
-          
+
           // Optional: Scroll to the success message
           bookingSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
@@ -1567,14 +1531,14 @@
       if (faqSearch && faqItems) {
         faqSearch.addEventListener('input', function (e) {
           const searchTerm = e.target.value.toLowerCase();
-          
+
           faqItems.forEach(item => {
             const summary = item.querySelector('summary p');
             if (summary) {
               const text = summary.textContent.toLowerCase();
               if (text.includes(searchTerm)) {
                 // Use 'flex' because the <details> element is a flex container
-                item.style.display = 'flex'; 
+                item.style.display = 'flex';
               } else {
                 item.style.display = 'none';
               }
@@ -1582,16 +1546,12 @@
           });
         });
       }
-      
+
     });
   </script>
 </body>
 
 </html>
-
-
-
-
 
 
 
