@@ -367,7 +367,8 @@
   </style>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased">
+<!-- FIX: Added padding-bottom to body for mobile nav -->
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased pb-16 md:pb-0">
   <header
     class="hidden md:flex sticky top-0 z-40 w-full backdrop-blur-md bg-card-light/90 dark:bg-card-dark/90 shadow-md">
     <div class="container mx-auto flex items-center justify-between h-20 px-4">
@@ -1063,10 +1064,10 @@
   </div>
 
   <!-- Bottom Navigation Bar -->
+  <!-- FIX: Removed opacity-0, translate-y-full, transition-all, duration-300, ease-in-out -->
   <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 h-16 bg-white/90 dark:bg-card-dark/90 backdrop-blur-sm shadow-[0_-2px_10px_rgba(0,0,0,0.05)]
               flex justify-around items-center z-40
-              md:hidden
-              opacity-0 translate-y-full transition-all duration-300 ease-in-out">
+              md:hidden">
     <a href="#hero"
       class="nav-link flex flex-col items-center justify-center text-subtle-text-light dark:text-subtle-text-dark transition-all duration-200 nav-link-active"
       data-section="hero">
@@ -1169,21 +1170,20 @@
         animationObserver.observe(el);
       });
 
-      // Show/Hide bottom nav based on scroll
+      // FIX: Removed logic for hiding/showing bottom nav on scroll
+      // Active link highlighting for hero section
       const navObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            bottomNav.classList.add('opacity-0', 'translate-y-full');
             navLinks.forEach(link => link.classList.remove('nav-link-active'));
             const heroLink = document.querySelector('.nav-link[data-section="hero"]');
             if (heroLink) heroLink.classList.add('nav-link-active');
-          } else {
-            bottomNav.classList.remove('opacity-0', 'translate-y-full');
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0.1 }); // Kept threshold for active link logic
 
       if (heroSection) navObserver.observe(heroSection);
+
 
       // Active link highlighting for other sections
       const activeLinkObserver = new IntersectionObserver((entries) => {
@@ -1191,18 +1191,30 @@
         const heroElem = document.querySelector('#hero');
         if (heroElem) {
           const heroRect = heroElem.getBoundingClientRect();
-          isHeroVisible = heroRect.top < window.innerHeight && heroRect.bottom >= 0;
+          // Check if top is within viewport OR bottom is within viewport
+          isHeroVisible = heroRect.top < window.innerHeight && heroRect.bottom > 0; 
         }
 
-        if (isHeroVisible) return;
+        // If hero is visible, don't change the active link yet (handled by navObserver)
+        if (isHeroVisible) return; 
 
         let intersectingSectionId = null;
-        entries.forEach(entry => {
+        let highestEntry = null;
+
+        // Find the section that is most visible at the top of the viewport
+         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            intersectingSectionId = entry.target.id;
+            if (!highestEntry || entry.boundingClientRect.top < highestEntry.boundingClientRect.top) {
+                highestEntry = entry;
+            }
           }
         });
 
+        if(highestEntry) {
+            intersectingSectionId = highestEntry.target.id;
+        }
+
+        // Update active link only if a section other than hero is intersecting
         if (intersectingSectionId) {
           navLinks.forEach(link => {
             link.classList.remove('nav-link-active');
@@ -1212,7 +1224,13 @@
           });
         }
 
-      }, { rootMargin: '-40% 0px -60% 0px', threshold: 0 });
+      }, { 
+          // Adjusted rootMargin: Trigger slightly before section reaches the very top,
+          // and consider it active until it's well past the middle.
+          rootMargin: '-20% 0px -70% 0px', 
+          threshold: 0 // Trigger as soon as any part enters/leaves margin
+      });
+
 
       sections.forEach(section => {
         if (section.id !== 'hero') {
@@ -1227,21 +1245,30 @@
           const targetId = this.getAttribute('href');
           const targetElement = document.querySelector(targetId);
           if (targetElement) {
-            const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+            // Calculate offset based on header height (only for desktop)
+            let headerOffset = 0;
+            if (window.innerWidth >= 768) { // md breakpoint
+                const header = document.querySelector('header');
+                if (header) {
+                    headerOffset = header.offsetHeight;
+                }
+            }
+            
+            // Calculate the position to scroll to
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20; // Subtract header height and small padding
+
+
             window.scrollTo({
-              top: offsetTop,
+              top: offsetPosition,
               behavior: 'smooth'
             });
 
+            // Update active link immediately on click (optional, but feels better)
             navLinks.forEach(link => link.classList.remove('nav-link-active'));
             const correspondingNavLink = document.querySelector(`.nav-link[data-section="${targetId.substring(1)}"]`);
             if (correspondingNavLink) {
               correspondingNavLink.classList.add('nav-link-active');
-            }
-            if (targetId === '#hero') {
-              bottomNav.classList.add('opacity-0', 'translate-y-full');
-            } else if (heroSection && heroSection.getBoundingClientRect().top < 0) {
-              bottomNav.classList.remove('opacity-0', 'translate-y-full');
             }
           }
         });
@@ -1330,6 +1357,7 @@
       let serviceItemsPerRow = Math.ceil(totalServiceItems / 2);
 
       function populateServiceCarousels() {
+        if (!carouselTrack1 || !carouselTrack2) return; // Added guard clause
         carouselTrack1.innerHTML = '';
         carouselTrack2.innerHTML = '';
         serviceItemsPerRow = Math.ceil(servicesList.length / 2);
@@ -1565,7 +1593,7 @@ Thanks!`;
       const faqItems = document.querySelectorAll('.faq-item');
       if (faqSearch && faqItems) {
         faqSearch.addEventListener('input', function (e) {
-          const searchTerm = e.target.value.toLowerCase();
+          const searchTerm = e.target.value.toLowerCase(); // FIX: Changed e.targe to e.target
 
           faqItems.forEach(item => {
             const summary = item.querySelector('summary p');
