@@ -807,6 +807,7 @@
               <p class="pb-2 text-base font-medium leading-normal text-text-light dark:text-text-dark font-body">Full
                 Name</p>
               <input
+                id="full-name-input"
                 class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50 font-body"
                 placeholder="Enter your full name" type="text" />
             </label>
@@ -826,6 +827,7 @@
                   Date</p>
                 <div class="relative">
                   <input
+                    id="event-date-input"
                     class="form-input h-14 w-full flex-1 resize-none overflow-hidden rounded-lg border border-border-light bg-card-light/50 p-4 pr-12 text-base font-normal leading-normal text-text-light placeholder-text-light/50 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/50 dark:border-border-dark dark:bg-card-dark/50 dark:text-text-dark dark:placeholder:text-text-dark/50 font-body"
                     placeholder="Select a date" type="date" />
                   <span
@@ -1507,24 +1509,57 @@
       });
       */
 
+      // --- Booking Form Submission (WhatsApp Redirect) ---
+const bookingForm = document.getElementById('booking-form');
+const bookingSuccess = document.getElementById('booking-success');
 
-      // --- DEBUG FIX: Booking Form Submission ---
-      const bookingForm = document.getElementById('booking-form');
-      const bookingSuccess = document.getElementById('booking-success');
-      if (bookingForm) {
-        bookingForm.addEventListener('submit', function (e) {
-          e.preventDefault(); // <-- This is the main bug fix
+if (bookingForm) {
+  bookingForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent the form from actually submitting
 
-          // In a real app, you'd send data to a server here.
-          // For this demo, we'll just hide the form and show the success message.
-          bookingForm.classList.add('hidden');
-          bookingSuccess.classList.remove('hidden');
+    // 1. Get values from all form inputs using their IDs
+    const fullName = document.getElementById('full-name-input').value;
+    const eventType = document.getElementById('event-type-input').value;
+    const eventDate = document.getElementById('event-date-input').value;
+    const location = document.getElementById('event-location-input').value;
+    const theme = document.getElementById('event-theme-input').value;
 
-          // Optional: Scroll to the success message
-          bookingSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-      }
+    // 2. Format the message for WhatsApp
+    // (Using \n for line breaks)
+    // FIX: Completed the template literal string
+    const message = `Hello BDK! 👋
+I'm interested in booking an event. Here are my details:
 
+*Name:* ${fullName || 'Not provided'}
+*Event Type:* ${eventType || 'Not provided'}
+*Event Date:* ${eventDate || 'Not specified'}
+*Location:* ${location || 'Not provided'}
+*Theme/Details:*
+${theme || 'No specific theme yet.'}
+
+Could you please let me know your availability?
+Thanks!`;
+
+    // 3. Encode the message to be safely used in a URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // 4. Construct the final WhatsApp URL
+    const phoneNumber = "+919355284041"; // Your client's phone number
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // 5. Open WhatsApp in a new tab
+    window.open(whatsappURL, '_blank');
+    
+    // 6. Reset the form and show the success message on your website
+    bookingForm.reset(); // Clear the form fields
+    bookingForm.classList.add('hidden');
+    bookingSuccess.classList.remove('hidden');
+
+    // Optional: Scroll to the success message
+    bookingSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+     
       // --- DEBUG FIX: FAQ Search Filter ---
       const faqSearch = document.getElementById('faq-search');
       const faqItems = document.querySelectorAll('.faq-item');
@@ -1552,6 +1587,4 @@
 </body>
 
 </html>
-
-
 
