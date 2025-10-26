@@ -184,6 +184,32 @@
       overflow-x: hidden;
     }
 
+    /* DEBUG: Changed styles for Services carousel */
+    #testimonial-carousel-viewport {
+      /* DEBUG: Changed from hidden to auto */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* Hide scrollbar */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    #testimonial-carousel-viewport::-webkit-scrollbar {
+      display: none;
+    }
+    /* END DEBUG */
+    #carousel-viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* Hide scrollbar */
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    #carousel-viewport::-webkit-scrollbar {
+      display: none;
+    }
+    /* END DEBUG */
+
+
     @media (min-width: 640px) {
 
       /* sm */
@@ -192,6 +218,14 @@
         /* Only adjusts width; height is inherited from the .testimonial-item rule above */
         width: calc((100% / 2) - (1rem * 1 / 2));
         margin-right: 0;
+      }
+      /* DEBUG: Add snap align to service items */
+      .carousel-item {
+        scroll-snap-align: start;
+      }
+      /* DEBUG: Add snap align to testimonial items */
+      .testimonial-item {
+        scroll-snap-align: start;
       }
     }
 
@@ -206,6 +240,11 @@
       .testimonial-item {
         width: calc((100% / 2) - (1rem * 1 / 2));
         /* 2 items for testimonials */
+        scroll-snap-align: start; /* DEBUG: Add snap align */
+      }
+      /* DEBUG: Add snap align to service items */
+      .carousel-item {
+        scroll-snap-align: start;
       }
     }
 
@@ -220,6 +259,11 @@
       .testimonial-item {
         width: calc((100% / 3) - (1rem * 2 / 3));
         /* 3 items for testimonials */
+        scroll-snap-align: start; /* DEBUG: Add snap align */
+      }
+      /* DEBUG: Add snap align to service items */
+      .carousel-item {
+        scroll-snap-align: start;
       }
     }
 
@@ -462,11 +506,15 @@
 
       <div>
         <div class="relative mb-6">
+          <!-- DEBUG: Removed prev-service button -->
+          <!--
           <button id="prev-service"
             class="carousel-button absolute left-0 top-1/2 -translate-y-1/2 -ml-4 lg:-ml-6 disabled:opacity-50 disabled:cursor-not-allowed">
             <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
           </button>
-          <div id="carousel-viewport" class="overflow-hidden mx-8 lg:mx-10">
+          -->
+          <!-- DEBUG: Removed mx-8 lg:mx-10 for full-width scroll -->
+          <div id="carousel-viewport" class="overflow-hidden">
             <div id="carousel-track-1" class="flex gap-4 mb-4">
               <!-- Service cards (row 1) dynamically added -->
             </div>
@@ -474,10 +522,13 @@
               <!-- Service cards (row 2) dynamically added -->
             </div>
           </div>
+          <!-- DEBUG: Removed next-service button -->
+          <!--
           <button id="next-service"
             class="carousel-button absolute right-0 top-1/2 -translate-y-1/2 -mr-4 lg:-mr-6 disabled:opacity-50 disabled:cursor-not-allowed">
             <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_right</span>
           </button>
+          -->
         </div>
 
         <div
@@ -606,19 +657,26 @@
           </div>
           <!-- Testimonial Carousel -->
           <div class="xl:col-span-2 relative">
+            <!-- DEBUG: Removed prev-testimonial button -->
+            <!--
             <button id="prev-testimonial"
               class="carousel-button absolute left-0 top-1/2 -translate-y-1/2 -ml-4 lg:-ml-10 disabled:opacity-50 disabled:cursor-not-allowed z-10">
               <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_left</span>
             </button>
-            <div id="testimonial-carousel-viewport" class="overflow-hidden mx-4 lg:mx-6">
+            -->
+            <!-- DEBUG: Removed mx-4 lg:mx-6 for full-width scroll -->
+            <div id="testimonial-carousel-viewport" class="overflow-hidden">
               <div id="testimonial-carousel-track" class="flex gap-4">
                 <!-- Testimonial cards dynamically added -->
               </div>
             </div>
+            <!-- DEBUG: Removed next-testimonial button -->
+            <!--
             <button id="next-testimonial"
               class="carousel-button absolute right-0 top-1/2 -translate-y-1/2 -mr-4 lg:-mr-10 disabled:opacity-50 disabled:cursor-not-allowed z-10">
               <span class="material-symbols-outlined text-text-light dark:text-text-dark">chevron_right</span>
             </button>
+            -->
           </div>
         </div>
 
@@ -1226,12 +1284,16 @@
 
       const carouselTrack1 = document.getElementById('carousel-track-1');
       const carouselTrack2 = document.getElementById('carousel-track-2');
-      const prevServiceButton = document.getElementById('prev-service');
-      const nextServiceButton = document.getElementById('next-service');
+      // DEBUG: Removed service buttons
+      // const prevServiceButton = document.getElementById('prev-service');
+      // const nextServiceButton = document.getElementById('next-service');
 
+      // DEBUG: Removed carousel state logic
+      /*
       let currentServiceIndex = 0;
       let itemsPerViewDesktopService = 6;
       let itemsPerViewMobileService = 1;
+      */
       let totalServiceItems = servicesList.length;
       let serviceItemsPerRow = Math.ceil(totalServiceItems / 2);
 
@@ -1257,9 +1319,12 @@
             carouselTrack2.appendChild(card);
           }
         });
-        setTimeout(updateServiceCarousel, 50);
+        // DEBUG: Removed call to updateServiceCarousel
+        // setTimeout(updateServiceCarousel, 50);
       }
 
+      // DEBUG: Removed updateServiceCarousel function
+      /*
       function updateServiceCarousel() {
         const serviceItems1 = carouselTrack1.querySelectorAll('.carousel-item');
         if (!serviceItems1 || serviceItems1.length === 0) return;
@@ -1297,7 +1362,10 @@
         prevServiceButton.disabled = currentServiceIndex === 0;
         nextServiceButton.disabled = currentServiceIndex >= maxIndex;
       }
+      */
 
+      // DEBUG: Removed button listeners
+      /*
       nextServiceButton.addEventListener('click', () => {
         // FIX: Calculate items to slide based on visible cards
         let currentItemsPerView;
@@ -1328,11 +1396,15 @@
         currentServiceIndex = Math.max(0, currentServiceIndex - itemsToSlide);
         updateServiceCarousel();
       });
+      */
 
       populateServiceCarousels();
+      // DEBUG: Removed resize listener for service carousel
+      /*
       window.addEventListener('resize', () => {
         setTimeout(updateServiceCarousel, 150);
       });
+      */
 
       // --- Testimonial Carousel Logic (FIXED SCROLL) ---
       const testimonials = [
@@ -1349,11 +1421,16 @@
       ];
 
       const testimonialTrack = document.getElementById('testimonial-carousel-track');
-      const prevTestimonialButton = document.getElementById('prev-testimonial');
-      const nextTestimonialButton = document.getElementById('next-testimonial');
+      // DEBUG: Removed testimonial buttons
+      // const prevTestimonialButton = document.getElementById('prev-testimonial');
+      // const nextTestimonialButton = document.getElementById('next-testimonial');
+      
+      // DEBUG: Removed testimonial state logic
+      /*
       let currentTestimonialIndex = 0;
       let itemsPerViewDesktopTestimonial = 3;
       let itemsPerViewMobileTestimonial = 1;
+      */
 
       function populateTestimonialCarousel() {
         if (!testimonialTrack) return; // Guard clause
@@ -1385,9 +1462,12 @@
         testimonialTrack.querySelectorAll('.animate-on-scroll').forEach((el) => {
           animationObserver.observe(el);
         });
-        setTimeout(updateTestimonialCarousel, 50);
+        // DEBUG: Removed call to updateTestimonialCarousel
+        // setTimeout(updateTestimonialCarousel, 50);
       }
 
+      // DEBUG: Removed updateTestimonialCarousel function
+      /*
       function updateTestimonialCarousel() {
         const testimonialItems = testimonialTrack.querySelectorAll('.testimonial-item');
         if (!testimonialItems || testimonialItems.length === 0) return;
@@ -1420,7 +1500,10 @@
         prevTestimonialButton.disabled = currentTestimonialIndex === 0;
         nextTestimonialButton.disabled = currentTestimonialIndex >= maxIndex;
       }
+      */
 
+      // DEBUG: Removed testimonial button listeners
+      /*
       nextTestimonialButton.addEventListener('click', () => {
         // FIX: Calculate items to slide based on visible cards
         let currentItemsPerView;
@@ -1447,11 +1530,15 @@
         currentTestimonialIndex = Math.max(0, currentTestimonialIndex - itemsToSlide);
         updateTestimonialCarousel();
       });
+      */
 
       populateTestimonialCarousel(); // Populate testimonials
+      // DEBUG: Removed resize listener for testimonial carousel
+      /*
       window.addEventListener('resize', () => {
         setTimeout(updateTestimonialCarousel, 150);
       });
+      */
       
       
       // --- DEBUG FIX: Booking Form Submission ---
@@ -1498,4 +1585,6 @@
 </body>
 
 </html>
+
+
 
